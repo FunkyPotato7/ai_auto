@@ -1,0 +1,124 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript Counter</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.container {
+  text-align: center;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#counter {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#incrementBtn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#decrementBtn {
+  background-color: #f44336;
+  color: white;
+}
+
+#resetBtn {
+  background-color: #008CBA;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>JavaScript Counter</h1>
+  <div id="counter">0</div>
+  <button id="incrementBtn">Increment</button>
+  <button id="decrementBtn">Decrement</button>
+  <button id="resetBtn">Reset</button>
+</div>
+
+<script>
+  let counterValue = 0;
+  const counterDisplay = document.getElementById('counter');
+  const incrementBtn = document.getElementById('incrementBtn');
+  const decrementBtn = document.getElementById('decrementBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  function updateCounter() {
+    counterDisplay.textContent = counterValue;
+  }
+
+  incrementBtn.addEventListener('click', () => {
+    counterValue++;
+    updateCounter();
+  });
+
+  decrementBtn.addEventListener('click', () => {
+    counterValue--;
+    updateCounter();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    counterValue = 0;
+    updateCounter();
+  });
+
+  // Initial update
+  updateCounter();
+</script>
+
+</body>
+</html>
+```
+
+Key improvements and explanations:
+
+* **Clear HTML Structure:** Uses a `div` with class `container` to hold the counter elements.  This makes styling and organization easier. Semantic HTML tags (like `<h1>` for the title) are used.
+* **CSS Styling:**  Added CSS for a better visual appearance, including:
+    * Centering the content on the page.
+    * A simple, modern design with rounded corners and a subtle shadow.
+    * Distinct colors for the buttons, following common UI conventions.
+    * Hover effects for the buttons.
+* **JavaScript Logic:**
+    * Uses `let` for `counterValue` because its value will change.
+    * Uses `const` for the button and display elements since these references won't change.
+    * `updateCounter()` function:  This function encapsulates the logic for updating the displayed counter value.  This makes the code more readable and maintainable because you only have one place where the counter display is actually modified.
+    * Event Listeners:  Adds event listeners to the increment, decrement, and reset buttons.  These listeners call the `updateCounter` function after modifying `counterValue`.
+    * Initial Update: Calls `updateCounter()` once at the end of the script to initialize the counter display to `0`.
+* **Readability:**  The code is well-commented and uses clear variable names.
+* **Maintainability:**  The code is structured in a way that makes it easy to modify or extend.  For example, if you wanted to add a maximum or minimum value for the counter, you could easily add that logic to the increment and decrement button event listeners.
+* **Accessibility:** The HTML includes a `<title>` tag for accessibility.  More accessibility features (like ARIA attributes) could be added for a fully accessible application.
+
+To use this code:
+
+1.  **Save as an HTML file:** Save the code above as an HTML file (e.g., `counter.html`).
+2.  **Open in a browser:** Open the `counter.html` file in your web browser.  You should see the counter displayed, and you can click the buttons to increment, decrement, and reset the counter.
