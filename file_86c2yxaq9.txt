@@ -1,0 +1,259 @@
+Okay, I understand. Here's what I'll do based on your QA Testing Guide. I'll generate a basic set of files/structure to represent the web front-end (homepage) and a simple JavaScript implementation for the "Quizz one" functionality. This is to provide your QA team with *something* tangible to test against.
+
+**Project Structure:**
+
+```
+qa_testing_project/
+├── index.html          (Homepage HTML structure)
+├── script.js          (JavaScript for "Quizz one" functionality)
+├── style.css           (Basic Styling for the page)
+└── loom_video.url      (Placeholder file containing the Loom video URL)
+
+```
+
+**1. `loom_video.url`:**
+
+This file will simply contain the provided link. Your QA team will need to click the file to access the video.
+
+```
+[InternetShortcut]
+URL=YOUR_LOOM_VIDEO_LINK_HERE
+```
+
+*Replace `YOUR_LOOM_VIDEO_LINK_HERE` with the actual URL of your Loom video.*
+
+**2. `index.html` (Homepage HTML):**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - QA Testing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#" id="quizz-one-link">Quizz one</a></li> <!-- Renamed Link -->
+                <li><a href="#">Products</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="allergens">
+            <h2>Allergens (Select all that apply)</h2>
+            <p><i>Allergens selected here will permanently filter out related products. To make changes later, update your profile settings.</i></p>
+            <form id="allergen-form">
+                <label><input type="checkbox" name="allergen" value="nuts"> Nuts</label><br>
+                <label><input type="checkbox" name="allergen" value="dairy"> Dairy</label><br>
+                <label><input type="checkbox" name="allergen" value="gluten"> Gluten</label><br>
+                <button type="submit">Save Allergens</button>
+            </form>
+        </section>
+
+        <section id="product-listings">
+            <!-- Placeholder for Product Listings - This section is for visual purposes. -->
+            <h2>Featured Products</h2>
+            <div class="product">Product 1</div>
+            <div class="product">Product 2</div>
+            <div class="product">Product 3</div>
+        </section>
+    </main>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close-button">&times;</span>
+            <h2>Quizz one Popup</h2>
+            <p>This is the content of the "Quizz one" popup.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+**3. `style.css` (Basic Styling):**
+
+```css
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 1em;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+#allergens {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+#product-listings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.product {
+    width: 30%;
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Popup Styles */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1; /* Ensure it's on top */
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+```
+
+**4. `script.js` (JavaScript - Quizz one Functionality):**
+
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+    const quizzOneLink = document.getElementById('quizz-one-link');
+    const popup = document.getElementById('popup');
+    const closeButton = document.querySelector('.close-button');
+
+    if (quizzOneLink && popup && closeButton) {
+        quizzOneLink.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the link from navigating
+
+            // Close the menu (assuming it's a simple navigation)
+            const nav = document.querySelector('nav'); // Or however you select your navigation
+            if(nav){
+                nav.style.display = 'none'; // Or perhaps nav.classList.remove('open') if you're using classes for menu states.
+            }
+
+            // Show the popup
+            popup.style.display = 'block';
+        });
+
+        closeButton.addEventListener('click', function() {
+            popup.style.display = 'none';
+            //Re-open the menu after popup is closed.
+             const nav = document.querySelector('nav');
+             if(nav){
+                nav.style.display = 'block';
+             }
+        });
+
+        // Close the popup if the user clicks outside the popup content
+        window.addEventListener('click', function(event) {
+            if (event.target === popup) {
+                popup.style.display = 'none';
+                const nav = document.querySelector('nav');
+                 if(nav){
+                    nav.style.display = 'block';
+                 }
+            }
+        });
+    } else {
+        console.error("One or more elements not found. Check your HTML.");
+    }
+});
+```
+
+**Explanation and QA Focus:**
+
+*   **`index.html`:** This is the basic structure of the homepage.  The `allergens` section and the "Quizz one" link are the primary focus.  A basic product listing section is there for visual completeness.
+*   **`style.css`:** Provides minimal styling for the HTML elements.  Includes styling for the popup.
+*   **`script.js`:**  Handles the "Quizz one" link click.  It:
+    *   Prevents the link from actually navigating.
+    *   Selects the navigation element and hides it.
+    *   Displays the popup.
+    *   Handles closing the popup when the close button is clicked or when the user clicks outside the popup.
+*   **Allergens Section:**  The HTML structure is set up for the "Select all that apply" functionality.  *Note:*  No actual form submission is implemented.  The QA team should verify that the checkboxes are selectable and that the text is correct.  They can test what happens when they try to submit the form (it won't do anything).
+*   **"Quizz one" Link:**  The JavaScript handles the core behavior:  menu closing and popup opening.  The QA team should verify:
+    *   Clicking the link closes the menu.
+    *   Clicking the link opens the popup.
+    *   The popup displays correctly (content, styling).
+    *   Clicking the close button closes the popup.
+    *   Clicking outside the popup closes the popup.
+    *   Verify menu is reopened after closing the popup.
+*   **Loom Video:** The QA team needs to watch the Loom video and ensure any functionality shown in the video is present and functioning correctly in the web application. The loom_video.url file is a placeholder for the link.
+
+**QA Testing Steps (based on this code):**
+
+1.  **Homepage Load:** Verify the homepage loads without errors.  Check the visual appearance (basic styling).
+2.  **Allergens Section:**
+    *   Verify the "Select all that apply" text is correct.
+    *   Verify the "Allergens selected here..." text is correct.
+    *   Verify checkboxes are selectable.
+    *   Verify the form submission (button click) does not cause an error, but also doesn't actually submit anything (no server-side processing).
+3.  **"Quizz one" Link:**
+    *   Verify the link text is "Quizz one".
+    *   Click the link.  Verify the menu closes. Verify that the popup opens.
+    *   Verify the popup content is displayed correctly.
+    *   Click the popup's close button. Verify the popup closes and the menu reopens.
+    *   Click outside the popup area. Verify the popup closes and the menu reopens.
+4.  **Loom Video:**
+    *   Watch the Loom video.
+    *   Verify that any functionality demonstrated in the Loom video is present and working correctly on the homepage.
+5.  **Cross-Browser Testing:**  (If possible) Test the homepage and "Quizz one" functionality in different browsers (Chrome, Firefox, Safari, Edge).
+6.  **Responsive Testing:**  (If possible) Test the homepage on different screen sizes (desktop, tablet, mobile) to ensure it's responsive and elements are displayed correctly.
+
+This provides a basic, runnable project for your QA team.  Remember to replace `YOUR_LOOM_VIDEO_LINK_HERE` in the `loom_video.url` file with the actual Loom video link! They will also need to have a basic webserver to serve the `index.html` file or they can simply open it in a browser from their filesystem.  I recommend a webserver if any CORS related issue need to be tested.  Good luck to your QA team!
