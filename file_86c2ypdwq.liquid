@@ -1,23 +1,104 @@
-```javascript
-function createCounter() {
-  let count = 0;
+Okay, I will create a JavaScript counter with separate files for HTML, CSS, and JavaScript.
 
-  return {
-    increment: function() {
-      count++;
-      return count;
-    },
-    decrement: function() {
-      count--;
-      return count;
-    },
-    reset: function() {
-      count = 0;
-      return count;
-    },
-    getValue: function() {
-      return count;
-    }
-  };
+**index.html**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Counter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Counter</h1>
+        <span id="value">0</span>
+        <div class="button-container">
+            <button class="btn decrease">DECREASE</button>
+            <button class="btn reset">RESET</button>
+            <button class="btn increase">INCREASE</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+
+**style.css**
+
+```css
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
 }
+
+.container {
+    text-align: center;
+}
+
+#value {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    margin: 5px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+}
+
+.button-container button:hover {
+    opacity: 0.8;
+}
+
+.decrease {
+    background-color: #f44336;
+}
+
+.increase {
+    background-color: #2196F3;
+}
+
+.reset {
+    background-color: #ff9800;
+}
+```
+
+**script.js**
+
+```javascript
+const value = document.getElementById('value');
+const decreaseBtn = document.querySelector('.decrease');
+const resetBtn = document.querySelector('.reset');
+const increaseBtn = document.querySelector('.increase');
+
+let count = 0;
+
+decreaseBtn.addEventListener('click', function() {
+    count--;
+    value.textContent = count;
+});
+
+increaseBtn.addEventListener('click', function() {
+    count++;
+    value.textContent = count;
+});
+
+resetBtn.addEventListener('click', function() {
+    count = 0;
+    value.textContent = count;
+});
 ```
