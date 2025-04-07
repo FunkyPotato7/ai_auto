@@ -1,0 +1,48 @@
+I understand you want to save the JSON data:
+
+```json
+{
+  "event": "taskStatusUpdated",
+  "history_items": [
+    {
+      "id": "4499995385188409127",
+      "type": 1,
+      "date": "1744016766041",
+      "field": "status",
+      "parent_id": "901503034081",
+      "data": {
+        "status_type": "custom"
+      },
+      "source": null,
+      "user": {
+        "id": 88783908,
+        "username": "Andrii Buno",
+        "email": "andrii.b@jollycommerce.io",
+        "color": "#b388ff",
+        "initials": "AB",
+        "profilePicture": null,
+        "role": 3,
+        "role_subtype": 0
+      },
+      "before": {
+        "status": "in progress/revision",
+        "color": "#f8ae00",
+        "orderindex": 4,
+        "type": "custom"
+      },
+      "after": {
+        "status": "ready to-do",
+        "color": "#ee5e99",
+        "orderindex": 3,
+        "type": "custom"
+      }
+    }
+  ],
+  "task_id": "86c2ypdwq",
+  "webhook_id": "901511ac-aab3-45d2-a22e-fe3d474e17cd"
+}
+```
+
+However, the available `GitHub` tool currently doesn't accept parameters like the repository details, file path, commit message, or the actual content to be saved.
+
+Therefore, I cannot directly save this data to a file on GitHub using the available tools.
