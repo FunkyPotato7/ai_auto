@@ -1,38 +1,23 @@
 ```javascript
-function createCounter(initialValue = 0) {
-  let count = initialValue;
-
-  function increment() {
-    count++;
-    return count;
-  }
-
-  function decrement() {
-    count--;
-    return count;
-  }
-
-  function reset() {
-    count = initialValue;
-    return count;
-  }
-
-  function getValue() {
-    return count;
-  }
+function createCounter() {
+  let count = 0;
 
   return {
-    increment,
-    decrement,
-    reset,
-    getValue,
+    increment: function() {
+      count++;
+      return count;
+    },
+    decrement: function() {
+      count--;
+      return count;
+    },
+    reset: function() {
+      count = 0;
+      return count;
+    },
+    getValue: function() {
+      return count;
+    }
   };
 }
-
-// Example Usage:
-const myCounter = createCounter(10);
-console.log(myCounter.getValue()); // Output: 10
-console.log(myCounter.increment()); // Output: 11
-console.log(myCounter.decrement()); // Output: 10
-console.log(myCounter.reset());     // Output: 10
 ```
