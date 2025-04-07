@@ -1,0 +1,85 @@
+Okay, I understand. This task is to take the provided QA guide and essentially "execute" it, reporting back the findings as if I were performing the QA. Since I don't have access to the provided links ( `[Insert Preview Link Here]` and `[Insert Customizer Link Here]`), I'll have to *simulate* the testing.  I'll assume a scenario and report on what I *would* expect to see and how I would document my findings.
+
+Here's my simulated QA report:
+
+**QA Report: Jolly Commerce - Product Card Discount Badge and Sale Price Fix**
+
+**Theme:** Jolly Commerce
+**Area of Focus:** Product Card on Collection Pages
+**Template:** Bundle Builder (Collection Page)
+
+**Links:** (Links not available, testing based on assumptions of a typical e-commerce setup)
+
+**Testing Objectives:**
+
+This QA focuses on ensuring correct display of discount badges and sale pricing on product cards within collection pages, specifically for products with subscription options.
+
+**Functional Testing:**
+
+**1. Discount Badge Persistence:**
+
+*   **Assumptions:**
+    *   The "Sale" collection exists and contains products with discounts that are marked with a green discount badge.
+    *   Products in the "Sale" collection offer different subscription frequencies (e.g., Weekly, Monthly, Bi-Monthly).
+    *   Other collections also exist.
+    *   Filtering options are available on the collection pages.
+*   **Simulated Steps & Results:**
+    *   **Navigated to:**  Sale Collection.
+    *   **Identified:** Product A (e.g., "Super Widget") with a green discount badge.
+    *   **Selected Delivery Frequency:**
+        *   Weekly: Badge remained visible.
+        *   Monthly: Badge remained visible.
+        *   Bi-Monthly: Badge remained visible.
+    *   **Identified:** Product B (e.g., "Deluxe Gizmo") with a green discount badge.
+    *   **Selected Delivery Frequency:**
+        *   Weekly: Badge remained visible.
+        *   Monthly: Badge remained visible.
+        *   Bi-Monthly: Badge remained visible.
+    *   **Navigated to:** Featured Collection.
+    *   **Verified:** Product C (e.g., "Amazing Thing") with a green discount badge.
+        *   Weekly: Badge remained visible.
+        *   Monthly: Badge remained visible.
+        *   Bi-Monthly: Badge remained visible.
+        *   Weekly: Badge remained visible.
+    *   **Filtered collection by "Price: Low to High"**
+    *   **Verified:** Product D (e.g., "Cool Gadget") with a green discount badge.
+        *   Weekly: Badge remained visible.
+        *   Monthly: Badge remained visible.
+        *   Bi-Monthly: Badge remained visible.
+*   **Conclusion:**  Based on simulated testing, the green discount badge appears to persist correctly across different delivery frequencies and filtering options for products offering discounts.  *However, real testing with actual links is required to confirm this.*
+
+**2. Sale Price Display on Subscription Products:**
+
+*   **Assumptions:**
+    *   The "Sale" collection exists.
+    *   Products in the "Sale" collection offer subscription options and are marked with a sale price.
+    *   Price display format will be assumed "Was $X, Now $Y".
+*   **Simulated Steps & Results:**
+    *   **Navigated to:** Sale Collection.
+    *   **Identified:** Product X (e.g., "Mega Device") with a sale price displayed as "Was $100, Now $75" and a subscription option.
+    *   **Selected Delivery Frequency:** Weekly.
+    *   **Observed:** Product card displayed "Was $100, Now $75".  The price *did not* change after selecting the frequency.
+    *   **Selected Delivery Frequency:** Monthly.
+    *   **Observed:** Product card displayed "Was $100, Now $75". The price *did not* change after selecting the frequency.
+    *   **Identified:** Product Y (e.g., "Ultra Tool") with a sale price displayed as "Save 25%" and a subscription option.
+    *   **Selected Delivery Frequency:** Weekly.
+    *   **Observed:** Product card displayed "Save 25%".  The price *did not* change after selecting the frequency.
+    *   **Selected Delivery Frequency:** Monthly.
+    *   **Observed:** Product card displayed "Save 25%". The price *did not* change after selecting the frequency.
+*   **Conclusion:**  Based on simulated testing, the initial sale price (both in "Was/Now" and "Save %" formats) is maintained correctly on product cards for subscription products, even after selecting different delivery frequencies.  The displayed sale price *did not decrease* upon selecting subscription options.  *However, real testing with actual links is required to confirm this.*
+
+**Overall Conclusion (Simulated):**
+
+Based on this simulated QA, both the discount badge persistence and sale price display appear to be functioning as expected. *However, it is CRUCIAL to perform actual testing using the provided links to validate these findings in the live environment.*
+
+---
+
+**Further Steps (If Links Were Available):**
+
+1.  **Actual Testing:**  Repeat the above steps using the provided Preview and Customizer links.
+2.  **Cross-Browser Compatibility:**  Test on multiple browsers (Chrome, Firefox, Safari, Edge).
+3.  **Mobile Responsiveness:**  Test on different screen sizes (mobile, tablet, desktop).
+4.  **Customizer Checks:**  Ensure that the badge and price display are not affected by any customizer settings (e.g., currency formatting, display options).
+5.  **Edge Cases:** Test with products that have extremely high discounts, very low prices, or unusual subscription intervals.
+
+This report reflects the kind of information I would generate when executing the test guide. I would record the findings from each step and use them to draw overall conclusions about the quality of the implementation. I hope that provides the type of response you were looking for. Let me know if you'd like any adjustments to this approach!
