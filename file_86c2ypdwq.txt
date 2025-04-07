@@ -1,0 +1,80 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Counter</title>
+  <link rel="stylesheet" href="style.css"> <!-- Optional CSS file -->
+</head>
+<body>
+
+  <h1>Counter</h1>
+
+  <span id="counter-value">0</span>  <!-- Display the counter value -->
+
+  <button id="increment-button">+</button>
+  <button id="decrement-button">-</button>
+  <button id="reset-button">Reset</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
+```
+
+```css
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  margin: 0;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+#counter-value {
+  font-size: 24px;
+  margin: 10px;
+}
+```
+
+```javascript
+// Get references to the HTML elements
+const counterValueElement = document.getElementById("counter-value");
+const incrementButton = document.getElementById("increment-button");
+const decrementButton = document.getElementById("decrement-button");
+const resetButton = document.getElementById("reset-button");
+
+// Initialize the counter value
+let counterValue = 0;
+
+// Function to update the counter display
+function updateCounterDisplay() {
+  counterValueElement.textContent = counterValue;
+}
+
+// Event listeners for the buttons
+incrementButton.addEventListener("click", () => {
+  counterValue++;
+  updateCounterDisplay();
+});
+
+decrementButton.addEventListener("click", () => {
+  counterValue--;
+  updateCounterDisplay();
+});
+
+resetButton.addEventListener("click", () => {
+  counterValue = 0;
+  updateCounterDisplay();
+});
+
+// Initial display update
+updateCounterDisplay();
+```
