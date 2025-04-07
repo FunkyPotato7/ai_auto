@@ -1,0 +1,35 @@
+```javascript
+// JavaScript Counter Example
+
+// HTML elements (assuming you have elements with these IDs)
+const counterDisplay = document.getElementById('counter');
+const incrementButton = document.getElementById('increment');
+const decrementButton = document.getElementById('decrement');
+
+// Initial counter value
+let counter = 0;
+
+// Update the display
+function updateDisplay() {
+  counterDisplay.textContent = counter;
+}
+
+// Increment function
+function incrementCounter() {
+  counter++;
+  updateDisplay();
+}
+
+// Decrement function
+function decrementCounter() {
+  counter--;
+  updateDisplay();
+}
+
+// Add event listeners
+incrementButton.addEventListener('click', incrementCounter);
+decrementButton.addEventListener('click', decrementCounter);
+
+// Initial display update
+updateDisplay();
+```
