@@ -1,0 +1,12 @@
+```python
+def rewrite_sentence(sentence):
+    if "Could you create new icons" in sentence:
+        return "New icon design requests require a minimum order value of $50."
+    else:
+        return sentence
+
+# Example Usage (You can remove this part in your final code)
+sentence = "Could you create new icons with a minimum order value?"
+rewritten_sentence = rewrite_sentence(sentence)
+print(rewritten_sentence)
+```
