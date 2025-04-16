@@ -1,0 +1,99 @@
+{% comment %}
+  Section: "hero-section"
+  Description: This section displays a hero banner with a main slogan, subtext, CTAs, and badges.
+{% endcomment %}
+
+{% style %}
+  .hero-section {
+    background-color: #a7d1ab; /* Green background color */
+    padding: 40px 20px; /* Padding for mobile */
+  }
+
+  @media screen and (min-width: 768px) {
+    .hero-section {
+      padding: 80px 40px; /* Padding for desktop */
+    }
+  }
+
+  .hero-section__cta {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0ead6; /* Beige button color */
+    color: #121212; /* Dark text color */
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  .hero-section__cta:hover {
+    background-color: #121212;
+    color: white;
+  }
+  
+  .hero-section__badge {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #b5543c;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    vertical-align: middle; /* Align badge vertically with button text */
+  }
+  
+    .hero-section__badge {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #b5543c; /* Red badge color */
+      color: white;
+      border-radius: 5px;
+      font-size: 14px;
+      vertical-align: middle; /* Align badge vertically with button text */
+      margin-left: 10px; /* Space between button and badge */
+    }
+
+  .hero-section__badges {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .hero-section__badge-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f0ead6; /* Beige circle background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px; /* Space between icons */
+  }
+
+  .hero-section__badge-text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #121212; /* Dark text color */
+  }
+
+  .hero-section__stars {
+    color: #FFD700; /* Gold star color */
+  }
+
+
+{% endstyle %}
+
+<div class="hero-section">
+  <div class="jc-text-center">
+    <div class="hero-section__stars">★★★</div>
+    <p>+10 000 vegans heureux</p>
+    <h1>LE PLAISIR VÉGÉTAL, ÇA COMMENCE ICI!</h1>
+    <p>100% Produits végétaliens, sans matières animales</p>
+
+    <a href="/collections/all" class="hero-section__cta">Découvrir les produits</a>
+    <a href="/pages/create-your-pack" class="hero-section__cta">Créez votre pack <span class="hero-section__badge">jusqu'à -20%</span></a>
+
+    <div class="hero-section__badges">
+      <div class="hero-section__badge-icon"><span class="hero-section__badge-text">100%<br>VÉGÉTAL</span></div>
+      <div class="hero-section__badge-icon"><span class="hero-section__badge-text">100%<br>GOURMAND</span></div>
+      <div class="hero-section__badge-icon"><span class="hero-section__badge-text">100%<br>FUN</span></div>
+    </div>
+  </div>
+</div>
