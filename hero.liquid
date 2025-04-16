@@ -4,6 +4,9 @@
 
   Snippets:
   - g-button
+
+  Scripts:
+  - hero.js
 {% endcomment %}
 
 {% style %}
@@ -12,35 +15,98 @@
   }
 
   .hero__content {
-    padding: 2rem; /* Padding on mobile */
+    padding: 2rem; /* Padding around content */
   }
 
-  @media (min-width: 768px) {
-    .hero__content {
-      padding: 4rem; /* Padding on desktop */
-    }
+  .hero__stars {
+    display: flex; /* Align stars horizontally */
+    align-items: center; /* Center stars vertically */
+    margin-bottom: 1rem; /* Space below stars */
+  }
+
+  .hero__stars svg {
+    width: 1.5rem; /* Star size */
+    height: 1.5rem; /* Star size */
+    margin-right: 0.5rem; /* Space between stars */
+    fill: gold; /* Star color */
+  }
+
+  .hero__title {
+    font-size: 2.5rem; /* Large title font size */
+    font-weight: bold; /* Bold title */
+    margin-bottom: 1rem; /* Space below title */
+  }
+
+  .hero__subtitle {
+    font-size: 1.2rem; /* Subtitle font size */
+    margin-bottom: 2rem; /* Space below subtitle */
+  }
+
+  .hero__buttons {
+    display: flex;
+    gap: 1rem; /* Space between buttons */
+  }
+
+  .hero__badge {
+    background-color: #c0392b;
+    color: white;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    margin-left: 1rem; /* Space between button and badge */
+  }
+
+  .hero__badges {
+    display: flex;
+    margin-top: 2rem;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .hero__badge-icon {
+    background-color: #f1c40f; /* Yellow badge */
+    border-radius: 50%;
+    padding: 1rem;
+  }
+
+  .hero__badge-icon.gourmand {
+    background-color: #e67e22;
+  }
+
+  .hero__badge-icon.fun {
+    background-color: #e74c3c;
   }
 {% endstyle %}
 
-<div class="hero">
-  <div class="hero__content jc-flex jc-flex-col jc-items-center jc-text-center lg:jc-text-left">
-    <div class="jc-flex jc-items-center">
-      <span class="jc-text-lg">⭐⭐⭐⭐⭐</span>
-      <span class="jc-ml-2">+10 000 vegans heureux</span>
+<div class="hero" id="{{ section.id }}">
+  <div class="hero__content">
+    <div class="hero__stars">
+      <svg><use href="#icon-star"></use></svg>
+      <svg><use href="#icon-star"></use></svg>
+      <svg><use href="#icon-star"></use></svg>
+      <svg><use href="#icon-star"></use></svg>
+      <svg><use href="#icon-star"></use></svg>
+      <span>+ 10 000 vegans heureux</span>
     </div>
-    <h1 class="jc-text-3xl jc-font-bold jc-mt-4 lg:jc-text-5xl">LE PLAISIR VÉGÉTAL,<br>ÇA COMMENCE ICI !</h1>
-    <p class="jc-mt-4 jc-text-lg">100% Produits végétaliens, sans matières animales</p>
-    <div class="jc-flex jc-flex-col jc-mt-8 lg:jc-flex-row lg:jc-gap-4">
-      {% render 'g-button', type: 'black-button', text: 'Découvrir les produits', link: '/collections/all' %}
-      <div class="jc-relative">
-        {% render 'g-button', type: 'gray-button', text: 'Créez votre pack', link: '/pages/create-your-pack' %}
-        <span class="jc-absolute jc-top-0 jc-right-0 jc-bg-red-500 jc-text-white jc-px-2 jc-py-1 jc-rounded-bl-md jc-rounded-tr-md">jusqu'à -20%</span>
-      </div>
+    <h1 class="hero__title">LE PLAISIR VÉGÉTAL, ÇA COMMENCE ICI!</h1>
+    <p class="hero__subtitle">100% Produits végétaliens, sans matières animales</p>
+
+    <div class="hero__buttons">
+      {% render 'g-button',
+        type: 'black-button',
+        text: 'Découvrir les produits',
+        link: '/collections/all'
+      %}
+      {% render 'g-button',
+        type: 'black-button',
+        text: 'Créez votre pack',
+        link: '/pages/pack-configurator' %}
+      <span class="hero__badge">Jusqu'à -20%</span>
     </div>
-    <div class="jc-flex jc-gap-4 jc-mt-8">
-      <div class="jc-bg-green-200 jc-rounded-full jc-px-4 jc-py-2 jc-text-center">100% VÉGÉTAL</div>
-      <div class="jc-bg-yellow-200 jc-rounded-full jc-px-4 jc-py-2 jc-text-center">100% GOURMAND</div>
-      <div class="jc-bg-pink-200 jc-rounded-full jc-px-4 jc-py-2 jc-text-center">100% FUN</div>
+    <div class="hero__badges">
+      <div class="hero__badge-icon"><span>100% VÉGÉTAL</span></div>
+      <div class="hero__badge-icon gourmand"><span>100% GOURMAND</span></div>
+      <div class="hero__badge-icon fun"><span>100% FUN</span></div>
     </div>
   </div>
 </div>
