@@ -1,0 +1,499 @@
+{% comment %}
+  Section: "g-hero-split"
+
+  Snippets:
+  - g-button
+  - g-render-image
+  - g-horizontal-alignment
+  - g-render-stars
+{% endcomment %}
+
+{%- liquid
+  assign image_on_right = section.settings.image_position == 'right'
+  assign text_col_order = 'md:jc-order-1'
+  assign image_col_order = 'md:jc-order-2'
+  if image_on_right == false
+    assign text_col_order = 'md:jc-order-2'
+    assign image_col_order = 'md:jc-order-1'
+  endif
+
+  assign text_align_mob = section.settings.horizontal_alignment_mob | replace: 'text-', ''
+  assign text_align_dsk = section.settings.horizontal_alignment_dsk | replace: 'md:text-', ''
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color }};
+    --text-color: {{ section.settings.text_color }};
+    --button-1-bg: {{ section.settings.button_1_bg_color }};
+    --button-1-text: {{ section.settings.button_1_text_color }};
+    --button-2-bg: {{ section.settings.button_2_bg_color }};
+    --button-2-text: {{ section.settings.button_2_text_color }};
+    --badge-discount-bg: {{ section.settings.button_2_tag_bg_color }};
+    --badge-discount-text: {{ section.settings.button_2_tag_text_color }};
+
+    --padding-top-mob: {{ section.settings.padding_mob_t }}px;
+    --padding-bottom-mob: {{ section.settings.padding_mob_b }}px;
+    --padding-top-dsk: {{ section.settings.padding_dsk_t }}px;
+    --padding-bottom-dsk: {{ section.settings.padding_dsk_b }}px;
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__text-content {
+    text-align: {{ text_align_mob }};
+  }
+
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .g-hero-split__text-content {
+      text-align: {{ text_align_dsk }};
+    }
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__button {
+    display: inline-flex; /* Ensure buttons behave like inline blocks for alignment */
+    padding: 12px 24px; /* Example padding, adjust as needed */
+    border-radius: 8px; /* Example border radius */
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+  }
+  #shopify-section-{{ section.id }} .g-hero-split__button:hover {
+    opacity: 0.85;
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__button--1 {
+    background-color: var(--button-1-bg);
+    color: var(--button-1-text);
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__button--2 {
+    background-color: var(--button-2-bg);
+    color: var(--button-2-text);
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__button-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Gap between buttons */
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__button-container--2 {
+    position: relative; /* Needed for the discount badge positioning */
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__discount-badge {
+    position: absolute;
+    top: -10px; /* Adjust position as needed */
+    right: -15px; /* Adjust position as needed */
+    background-color: var(--badge-discount-bg);
+    color: var(--badge-discount-text);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transform: rotate(10deg); /* Optional rotation */
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Gap between badges */
+    margin-top: 1.5rem; /* Space above badges */
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__badge-icon {
+    width: 80px; /* Adjust size as needed */
+    height: 80px;
+    margin-bottom: 0.5rem;
+  }
+  #shopify-section-{{ section.id }} .g-hero-split__badge-icon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  #shopify-section-{{ section.id }} .g-hero-split__badge-text {
+    font-size: 0.875rem; /* Adjust size as needed */
+    font-weight: 500;
+    color: var(--text-color);
+  }
+{% endstyle %}
+
+<div
+  id="shopify-section-{{ section.id }}"
+  class="jc-bg-[var(--background-color)] jc-text-[var(--text-color)] jc-py-[var(--padding-top-mob)] jc-pb-[var(--padding-bottom-mob)] md:jc-py-[var(--padding-top-dsk)] md:jc-pb-[var(--padding-bottom-dsk)]"
+>
+  <div class="jc-container">
+    <div class="jc-grid jc-grid-cols-1 md:jc-grid-cols-2 jc-gap-8 md:jc-gap-12 jc-items-center">
+      {% # Text Content %}
+      <div
+        class="g-hero-split__text-content jc-flex jc-flex-col jc-gap-4 md:jc-gap-5 {{ text_col_order }} {% render 'g-horizontal-alignment', root: section %}"
+      >
+        {% # Reassurance %}
+        {%- if section.settings.show_reassurance -%}
+          <div class="jc-flex jc-flex-wrap jc-items-center jc-gap-x-2 jc-gap-y-1 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+            {%- if section.settings.reassurence_rating > 0 -%}
+              {% render 'g-render-stars', rating: section.settings.reassurence_rating %}
+            {%- endif -%}
+            {%- if section.settings.reassurence_sentence != blank -%}
+              <p class="jc-text-sm">
+                {{ section.settings.reassurence_sentence }}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {% # Heading %}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="jc-font-bold jc-text-4xl lg:jc-text-5xl jc-leading-tight">
+            {{ section.settings.heading | newline_to_br }}
+          </h2>
+        {%- endif -%}
+
+        {% # Description %}
+        {%- if section.settings.description != blank -%}
+          <div class="jc-text-base md:jc-text-lg jc-leading-relaxed jc-rte">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+
+        {% # Buttons %}
+        {%- if section.settings.button_1_text != blank or section.settings.button_2_text != blank -%}
+          <div class="g-hero-split__button-wrapper jc-mt-2 md:jc-mt-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+            {%- if section.settings.button_1_text != blank -%}
+              <a
+                href="{{ section.settings.button_1_link | default: '#' }}"
+                class="g-hero-split__button g-hero-split__button--1"
+              >
+                {{ section.settings.button_1_text }}
+              </a>
+            {%- endif -%}
+
+            {%- if section.settings.button_2_text != blank -%}
+              <div class="g-hero-split__button-container--2">
+                <a
+                  href="{{ section.settings.button_2_link | default: '#' }}"
+                  class="g-hero-split__button g-hero-split__button--2"
+                >
+                  {{ section.settings.button_2_text }}
+                </a>
+                {%- if section.settings.button_2_tag_text != blank -%}
+                  <span class="g-hero-split__discount-badge">
+                    {{ section.settings.button_2_tag_text }}
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {% # Badges %}
+        {%- if section.blocks.size > 0 -%}
+          <div class="g-hero-split__badges {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+            {%- for block in section.blocks -%}
+              <div class="g-hero-split__badge" {{ block.shopify_attributes }}>
+                {%- if block.settings.icon != blank -%}
+                  <div class="g-hero-split__badge-icon">
+                    {%- render 'g-render-image', img: block.settings.icon, size: '80', alt: block.settings.icon.alt -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <span class="g-hero-split__badge-text">{{ block.settings.text }}</span>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {% # Image Content %}
+      <div class="{{ image_col_order }}">
+        {%- if section.settings.image != blank -%}
+          {%- render 'g-render-image',
+            img: section.settings.image,
+            size: '600 800 1000 1200',
+            class: 'jc-w-full jc-h-auto jc-object-contain jc-max-h-[600px]',
+            alt: section.settings.image.alt | default: section.settings.heading | escape,
+            loading: 'eager'
+          -%}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'jc-w-full jc-h-full jc-bg-gray-200 jc-text-gray-500' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Split",
+  "tag": "section",
+  "class": "g-hero-split",
+  "settings": [
+    {
+      "type": "header",
+      "content": "🎨 Style & Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#EBF2E8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#212121"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position (desktop)",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "text_alignment",
+      "id": "horizontal_alignment_dsk",
+      "label": "Text align (desktop)",
+      "default": "left"
+    },
+    {
+      "type": "text_alignment",
+      "id": "horizontal_alignment_mob",
+      "label": "Text align (mobile)",
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_t",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding top (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_b",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Padding bottom (desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_t",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Padding top (mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_b",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Padding bottom (mobile)"
+    },
+    {
+      "type": "header",
+      "content": "⭐ Reassurance"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reassurance",
+      "label": "Show reassurance",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "reassurence_sentence",
+      "label": "Sentence",
+      "default": "+ 10 000 vegans heureux"
+    },
+    {
+      "type": "range",
+      "id": "reassurence_rating",
+      "label": "Rating",
+      "default": 5,
+      "min": 0,
+      "max": 5,
+      "step": 0.5
+    },
+    {
+      "type": "header",
+      "content": "📝 Text Content"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "LE PLAISIR VÉGÉTAL,\nÇA COMMENCE ICI !"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>100% Produits végétaliens, sans matières animales</p>"
+    },
+    {
+      "type": "header",
+      "content": "🖼️ Image Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "🖱️ Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button 1 text",
+      "default": "Découvrir les produits"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "color",
+      "id": "button_1_bg_color",
+      "label": "Button 1 background",
+      "default": "#F9D5A7"
+    },
+    {
+      "type": "color",
+      "id": "button_1_text_color",
+      "label": "Button 1 text color",
+      "default": "#212121"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 text",
+      "default": "Créez votre pack"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "color",
+      "id": "button_2_bg_color",
+      "label": "Button 2 background",
+      "default": "#8FA89A"
+    },
+    {
+      "type": "color",
+      "id": "button_2_text_color",
+      "label": "Button 2 text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "button_2_tag_text",
+      "label": "Button 2 discount tag text",
+      "default": "jusqu'à -20%"
+    },
+    {
+      "type": "color",
+      "id": "button_2_tag_bg_color",
+      "label": "Discount tag background",
+      "default": "#D9534F"
+    },
+    {
+      "type": "color",
+      "id": "button_2_tag_text_color",
+      "label": "Discount tag text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Badge text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Split",
+      "settings": {
+        "heading": "LE PLAISIR VÉGÉTAL,\nÇA COMMENCE ICI !",
+        "description": "<p>100% Produits végétaliens, sans matières animales</p>",
+        "button_1_text": "Découvrir les produits",
+        "button_2_text": "Créez votre pack",
+        "button_2_tag_text": "jusqu'à -20%",
+        "reassurence_sentence": "+ 10 000 vegans heureux"
+      },
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "text": "100% VÉGÉTAL"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "text": "100% GOURMAND"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "text": "100% FUN"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

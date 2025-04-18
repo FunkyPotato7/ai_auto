@@ -1,0 +1,54 @@
+{%- style -%}
+  .hero {
+    background: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section class="hero">
+  <div class="jc-grid jc-gap-6 lg:jc-gap-12 jc-px-12 lg:jc-px-48">
+    <div class="jc-col-span-1 lg:jc-col-span-6">
+      <div class="jc-flex jc-items-center jc-gap-2">
+        <div class="jc-text-xl">★★★★★</div>
+        <span>{{ section.settings.review_text }}</span>
+      </div>
+      <h1 class="jc-font-bold jc-text-4xl md:jc-text-7xl jc-leading-tight">{{ section.settings.main_slogan }}</h1>
+      <p class="jc-mt-4 jc-text-xl">{{ section.settings.subtext }}</p>
+
+      <div class="jc-flex jc-gap-4 jc-mt-8">
+        {% render 'g-button', type: 'black-button', text: section.settings.cta_1_text, link: section.settings.cta_1_link %}
+        <div class="jc-flex jc-items-center">
+          {% render 'g-button', type: 'transparent-black-with-arrow', text: section.settings.cta_2_text, link: section.settings.cta_2_link %}
+          <span class="jc-bg-red-600 jc-text-white jc-rounded-full jc-px-2 jc-py-1 jc-ml-2">{{ section.settings.badge_text }}</span>
+        </div>
+      </div>
+
+      <div class="jc-mt-8 jc-flex jc-gap-8">
+        <div>
+          <div class="jc-flex jc-items-center jc-justify-center jc-rounded-full jc-w-16 jc-h-16 jc-bg-orange-100">
+            <span class="jc-text-orange-700 jc-text-3xl">100%</span>
+          </div>
+          <span class="jc-text-center jc-block">{{ section.settings.badge_1_text }}</span>
+        </div>
+        <div>
+          <div class="jc-flex jc-items-center jc-justify-center jc-rounded-full jc-w-16 jc-h-16 jc-bg-yellow-100">
+            <span class="jc-text-yellow-700 jc-text-3xl">100%</span>
+          </div>
+          <span class="jc-text-center jc-block">{{ section.settings.badge_2_text }}</span>
+        </div>
+        <div>
+          <div class="jc-flex jc-items-center jc-justify-center jc-rounded-full jc-w-16 jc-h-16 jc-bg-pink-100">
+            <span class="jc-text-pink-700 jc-text-3xl">100%</span>
+          </div>
+          <span class="jc-text-center jc-block">{{ section.settings.badge_3_text }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="jc-col-span-1 lg:jc-col-span-6">
+      {%- if section.settings.image != blank -%}
+        <img src="{{ section.settings.image | img_url: '1024x1024' }}" alt="{{ section.settings.image.alt | default: shop.name }}" class="jc-max-w-full jc-h-auto jc-rounded-xl">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
