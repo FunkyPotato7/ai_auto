@@ -1,0 +1,132 @@
+{%- liquid
+  assign rating = 5
+  assign star_count = rating | times: 1
+-%}
+
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="stars-and-text">
+      <div class="stars">{% for i in (1..star_count) %}<span>&#9733;</span>{% endfor %}</div>
+      <p class="text">+ 10 000 vegans heureux</p>
+    </div>
+
+    <h1 class="main-slogan">LE PLAISIR VÉGÉTAL,<br>ÇA COMMENCE ICI !</h1>
+    <p class="subtext">100% Produits végétaliens, sans matières animales</p>
+
+    <div class="ctas">
+      <a href="/collections/all" class="main-cta">Découvrir les produits</a>
+      <a href="/pages/custom-pack-configurator" class="secondary-cta">
+        Crééz votre pack
+        <span class="badge">jusqu'à -20%</span>
+      </a>
+    </div>
+
+    <div class="badges">
+      <span class="badge">100% VÉGÉTAL</span>
+      <span class="badge">100% GOURMAND</span>
+      <span class="badge">100% FUN</span>
+    </div>
+  </div>
+</section>
+
+{% style %}
+.hero-section {
+  background-color: #a7d1ab; /* Example background color */
+  padding: 2rem; /* Adjust padding as needed */
+}
+
+.hero-content {
+  text-align: center;
+  /* Add any other necessary styling */
+}
+
+.stars-and-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.stars {
+  color: gold; /* Example star color */
+  margin-right: 0.5rem;
+}
+
+.stars span {
+  font-size: 1.2rem;
+}
+
+.main-slogan {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.subtext {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.ctas {
+  display: flex;
+  flex-direction: column; /* Stack CTAs vertically on smaller screens */
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem; /* Space below CTAs */
+}
+
+@media (min-width: 768px) {
+  .ctas {
+    flex-direction: row; /* Align CTAs horizontally on larger screens */
+    justify-content: center;
+  }
+}
+
+.main-cta, .secondary-cta {
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease; /* Add hover effect */
+}
+
+.main-cta {
+  background-color: black;
+  color: white;
+}
+
+.main-cta:hover {
+  background-color: #333; /* Darker background on hover */
+}
+
+.secondary-cta {
+  background-color: #eee;
+  color: black;
+  display: flex; /* Align button text and badge */
+  align-items: center; /* Vertically center badge and text*/
+}
+
+.secondary-cta:hover {
+  background-color: #ddd; /* Lighter background on hover */
+}
+
+.badge {
+  background-color: #e74c3c; /* Example badge color */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-left: 0.5rem; /* Adjust as needed */
+  white-space: nowrap;
+}
+.badges {
+  display: flex;
+  flex-wrap: wrap; /* To handle badges wrapping to next line if needed */
+  justify-content: center;
+  gap: 10px;
+}
+
+.badges .badge {
+  background-color: #f1c40f; /* Example badge color */
+  color: black;
+}
+{% endstyle %}
