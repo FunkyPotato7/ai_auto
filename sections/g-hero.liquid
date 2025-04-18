@@ -53,66 +53,8 @@
 %}
 
 <div class="background-{{ section.id }} jc-relative">
-  {% # Mobile image %}
-  {% assign bg_image_mob = section.settings.background_image_mob %}
-  {% if bg_image_mob != blank %}
-    {% render 'g-render-image',
-      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover md:jc-hidden',
-      img_src: bg_image_mob.url,
-      img: bg_image_mob,
-      size: '600 1000 1400',
-      alt: bg_image_mob.alt,
-      loading: 'eager'
-    %}
-  {% endif %}
-
-  {% # Mobile video %}
-  {% assign bg_video_mob = section.settings.background_video_mob %}
-  {% if bg_video_mob != blank %}
-    {{
-      bg_video_mob
-      | video_tag:
-      autoplay: true,
-      loop: true,
-      muted: true,
-      controls: false,
-      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover md:jc-hidden'
-    }}
-  {% endif %}
-
-  {% # Desktop image %}
-  {% assign bg_image_dsk = section.settings.background_image_dsk %}
-  {% if bg_image_dsk != blank %}
-    {% render 'g-render-image',
-      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block',
-      img_src: bg_image_dsk.url,
-      img: bg_image_dsk,
-      size: '600 1000 1400',
-      alt: bg_image_dsk.alt,
-      loading: 'eager'
-    %}
-  {% endif %}
-
-  {% # Desktop video %}
-  {% assign bg_video_dsk = section.settings.background_video_dsk %}
-  {% if bg_video_dsk != blank %}
-    {{
-      bg_video_dsk
-      | video_tag:
-      autoplay: true,
-      loop: true,
-      muted: true,
-      controls: false,
-      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block'
-    }}
-  {% endif %}
-  
-  {% # Ovelay %}
-  <div
-    class="jc-w-full jc-h-full jc-absolute jc-inset-0 jc-bg-[rgba(0,0,0,calc(var(--background-overlay-opacity)/100))]" 
-  ></div>
-  
-  {% # Content %}
+  {% render 'g-background-video', section: section %}
+  <div class="jc-w-full jc-h-full jc-absolute jc-inset-0 jc-bg-[rgba(0,0,0,calc(var(--background-overlay-opacity)/100))]" ></div>
   <div class="jc-container jc-relative paddings-{{ section.id }}">
     <div class="content-paddings-{{ section.id }} jc-max-w-[768px] jc-flex jc-flex-col {% render 'g-horizontal-alignment', root: section %} {{ horizontal_position_dsk }} background-{{ section.id }} jc-gap-4">
       {%- if section.settings.tagline != blank -%}
@@ -133,53 +75,41 @@
         </div>
       {%- endif -%}
 
-      <div class="jc-flex jc-items-center jc-gap-4">
-        {% render 'g-render-stars', rating: section.settings.reassurence_rating %}
-        <p>
-          {{ section.settings.reassurence_sentence }}
-        </p>
-      </div>
-
-      <div class="jc-flex jc-flex-col md:jc-flex-row jc-gap-4">
+      <div class="jc-flex jc-flex-col jc-gap-4">
         {%- if section.settings.button_1_text != blank -%}  
-          <div class="jc-w-full md:jc-w-auto">
-            {% # There we render button based on settings from customizer %}
-            {% if section.settings.button_1_style == 'transparent-black-with-arrow' %}
-              {% assign icon_button_1 = 'arrow-right' %}
-            {% else %}
-              {% assign icon_button_1 = '' %}
-            {% endif %}
-            {% render 'g-button',
+          <div class="jc-flex jc-items-center jc-gap-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+            {% render 'g-button', 
               type: section.settings.button_1_style,
               text: section.settings.button_1_text,
-              link: section.settings.button_1_link,
-              icon: icon_button_1      
+              link: section.settings.button_1_link
             %}
           </div>
         {%- endif -%}
-        {%- if section.settings.button_2_text != blank -%}
-          <div class="jc-w-full md:jc-w-auto jc-relative">
+        {%- if section.settings.button_2_text != blank -%}  
+          <div class="jc-flex jc-items-center jc-gap-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
             {% render 'g-button',
               type: section.settings.button_2_style,
               text: section.settings.button_2_text,
               link: section.settings.button_2_link
             %}
-            {% render 'g-badge',
-              text: section.settings.button_2_badge_text,
-              color: section.settings.button_2_badge_color
-            %}
+            {% render 'g-badge', text: section.settings.badge_text %}
           </div>
         {%- endif -%}
-      </div>
-      <div class="jc-flex jc-flex-wrap jc-gap-4">
-        {% for i in (1..3) %}
-          <div class="jc-flex jc-items-center jc-gap-2">
-            <div class="jc-w-8 jc-h-8 jc-rounded-full jc-bg-primary/10 jc-flex jc-items-center jc-justify-center">
-              <span class="jc-material-symbols-outlined jc-text-primary">check_circle</span>
-            </div>
-            <span>{{ section.settings['badge_' | append: i | append: '_text'] }}</span>
-          </div>
-        {% endfor %}
+        <div class="jc-flex jc-flex-wrap jc-items-center jc-gap-2 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+          {% render 'g-render-stars', rating: section.settings.reassurence_rating %}
+          {% if section.settings.reassurence_sentence != blank %}
+            <p>
+              {{ section.settings.reassurence_sentence }}
+            </p>
+          {% endif %}
+        </div>
+        <div class="jc-flex jc-items-center jc-gap-2 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+          {% for i in (1..3) %}
+            {%- if section.settings['badge_text_' | append: i] != blank -%}
+              {% render 'g-badge', text: section.settings['badge_text_' | append: i], style: 'icon-text' %}
+            {%- endif -%}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
