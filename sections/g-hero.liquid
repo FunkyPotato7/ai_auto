@@ -1,0 +1,182 @@
+{% comment %}
+  Section: "g-hero"
+
+  Snippets:
+  - g-button
+  - g-render-image
+  - g-horizontal-alignment
+  - g-render-stars
+  - g-badge
+{% endcomment %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-overlay-opacity: {{ section.settings.background_overlay }};
+  }
+
+  .background-{{ section.id }} {
+    background: {{ section.settings.background_color }};
+  }
+
+  .paddings-{{ section.id }} {
+    padding-top: {{ section.settings.padding_mob_t }}px;
+    padding-bottom: {{ section.settings.padding_mob_b }}px;
+  }
+
+  .content-paddings-{{ section.id }} {
+    padding: {{ section.settings.content_padding_mob }}px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .paddings-{{ section.id }} {
+      padding-top: {{ section.settings.padding_dsk_t }}px;
+      padding-bottom: {{ section.settings.padding_dsk_b }}px;
+    }
+
+    .content-paddings-{{ section.id }} {
+      padding: {{ section.settings.content_padding_dsk }}px;
+    }
+  }
+{% endstyle %}
+
+{%- liquid
+  capture horizontal_position_dsk
+    case section.settings.horizontal_position_dsk
+      when 'left'
+        echo 'md:jc-mr-auto'
+      when 'center'
+        echo 'md:jc-mx-auto'
+      when 'right'
+        echo 'md:jc-ml-auto'
+    endcase
+  endcapture
+%}
+
+<div class="background-{{ section.id }} jc-relative">
+  {% # Mobile image %}
+  {% assign bg_image_mob = section.settings.background_image_mob %}
+  {% if bg_image_mob != blank %}
+    {% render 'g-render-image',
+      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover md:jc-hidden',
+      img_src: bg_image_mob.url,
+      img: bg_image_mob,
+      size: '600 1000 1400',
+      alt: bg_image_mob.alt,
+      loading: 'eager'
+    %}
+  {% endif %}
+
+  {% # Mobile video %}
+  {% assign bg_video_mob = section.settings.background_video_mob %}
+  {% if bg_video_mob != blank %}
+    {{
+      bg_video_mob
+      | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover md:jc-hidden'
+    }}
+  {% endif %}
+
+  {% # Desktop image %}
+  {% assign bg_image_dsk = section.settings.background_image_dsk %}
+  {% if bg_image_dsk != blank %}
+    {% render 'g-render-image',
+      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block',
+      img_src: bg_image_dsk.url,
+      img: bg_image_dsk,
+      size: '600 1000 1400',
+      alt: bg_image_dsk.alt,
+      loading: 'eager'
+    %}
+  {% endif %}
+
+  {% # Desktop video %}
+  {% assign bg_video_dsk = section.settings.background_video_dsk %}
+  {% if bg_video_dsk != blank %}
+    {{
+      bg_video_dsk
+      | video_tag:
+      autoplay: true,
+      loop: true,
+      muted: true,
+      controls: false,
+      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block'
+    }}
+  {% endif %}
+  
+  {% # Ovelay %}
+  <div
+    class="jc-w-full jc-h-full jc-absolute jc-inset-0 jc-bg-[rgba(0,0,0,calc(var(--background-overlay-opacity)/100))] "
+  ></div>
+  
+  {% # Content %}
+  <div class="jc-container jc-relative paddings-{{ section.id }}">
+    <div class="content-paddings-{{ section.id }} jc-max-w-[768px] jc-flex jc-flex-col {% render 'g-horizontal-alignment', root: section %} {{ horizontal_position_dsk }} background-{{ section.id }} jc-gap-4">
+      {%- if section.settings.tagline != blank -%}
+        <span class="jc-uppercase">
+          {{- section.settings.tagline -}}
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h3 class="jc-font-bold jc-text-2xl jc-leading-8 lg:jc-text-5xl lg:jc-leading-10">
+          {{- section.settings.heading -}}
+        </h3>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="jc-text-lg jc-mt-2 jc-leading-8">
+          {{ section.settings.description }}
+        </div>
+      {%- endif -%}
+      <div class="jc-flex jc-flex-col lg:jc-flex-row jc-gap-4">
+        {%- if section.settings.button_1_text != blank -%}  
+          <div class="jc-flex jc-items-center jc-gap-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+            {% # There we render button based on settings from customizer %}
+            {% if section.settings.button_1_style == 'transparent-black-with-arrow' %}
+              {% assign icon_button_1 = 'arrow-right' %}
+            {% else %}
+              {% assign icon_button_1 = '' %}
+            {% endif %}
+            {% render 'g-button',
+              type: section.settings.button_1_style,
+              text: section.settings.button_1_text,
+              link: section.settings.button_1_link,
+              icon: icon_button_1      
+            %}
+          </div>
+        {%- endif -%}
+        {%- if section.settings.button_2_text != blank -%}  
+          <div class="jc-flex jc-items-center jc-gap-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+             {% render 'g-button',
+              type: section.settings.button_2_style,
+              text: section.settings.button_2_text,
+              link: section.settings.button_2_link
+            %}
+            {% render 'g-badge', text: section.settings.button_2_badge %}
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="jc-flex jc-flex-wrap jc-items-center jc-gap-2 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+        {%- # Make sure that global rating star settings are in theme before rendering -%}
+        {% render 'g-render-stars', rating: section.settings.reassurence_rating %}
+        {% if section.settings.reassurence_sentence != blank %}
+          <p>
+            {{ section.settings.reassurence_sentence }}
+          </p>
+        {% endif %}
+      </div>
+      <div class="jc-flex jc-flex-wrap jc-items-center jc-gap-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'badge' %}
+              {% render 'g-badge', text: block.settings.badge_text, type: block.settings.badge_type %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
