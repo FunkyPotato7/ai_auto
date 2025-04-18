@@ -1,124 +1,104 @@
 {% comment %}
-  Section: "hero"
-  Created by: Bard
-
-  Snippets:
-  - g-button
+  Section: hero
 {% endcomment %}
 
 {% style %}
   .hero {
-    background-color: #a7d1ab;
-    padding: 2rem 1rem;
+    background-color: #b2d235;
+    padding: 40px 20px; /* Mobile padding */
   }
 
   @media (min-width: 768px) {
     .hero {
-      padding: 4rem;
+      padding: 80px 40px; /* Desktop padding */
     }
   }
 
   .hero__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center; /* Center content */
   }
 
-  @media (min-width: 768px) {
-    .hero__content {
-      align-items: flex-start;
-    }
+  .hero__stars {
+    display: inline-flex; /* Align stars horizontally */
+    margin-bottom: 10px; /* Add space below stars */
   }
 
   .hero__title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-    @media (min-width: 768px) {
-      .hero__title {
-        font-size: 3.5rem;
-        text-align: left;
-      }
-    }
-
-  .hero__stars {
-    display: flex;
-    margin-bottom: 1rem;
+    font-size: 2em; /* Adjust title size as needed */
+    margin-bottom: 10px; /* Add space below title */
   }
 
   .hero__subtext {
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  @media (min-width: 768px) {
-    .hero__subtext {
-      text-align: left;
-    }
+    margin-bottom: 20px; /* Add space below subtext */
   }
 
   .hero__buttons {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    flex-direction: column; /* Stack buttons vertically on mobile */
+    gap: 10px;
+    margin-bottom: 20px;
   }
 
   @media (min-width: 768px) {
     .hero__buttons {
-      flex-direction: row;
+      flex-direction: row; /* Arrange buttons horizontally on desktop */
+      justify-content: center;
     }
   }
 
   .hero__badge {
-    background-color: #EF4E36;
+    background-color: #d90429;
     color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-    margin-left: 0.5rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    display: inline-block; /* Prevent badge from breaking line */
   }
 
   .hero__badges {
     display: flex;
     justify-content: center;
-    gap: 1rem;  
+    gap: 10px;
   }
 
   .hero__badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    padding: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.1); /* Example background color */
   }
 
-  @media (min-width: 768px) {
-   .hero__badges {
-    justify-content: flex-start;
-   }
+  /* Add hover effects for buttons */
+  .hero__button:hover {
+    /* Example hover effect: darken background */
+    filter: brightness(90%);
   }
 {% endstyle %}
 
 <div class="hero" id="{{ section.id }}">
   <div class="hero__content">
     <div class="hero__stars">
-      <span>★★★★★</span>
-      <span>+10 000 vegans heureux</span>
+      {%- for i in (1..5) -%}
+        <span>&#9733;</span>
+      {%- endfor -%}
+      <span> + 10 000 vegans heureux</span>
     </div>
-    <h2 class="hero__title">LE PLAISIR VÉGÉTAL,<br>ÇA COMMENCE ICI!</h2>
+
+    <h2 class="hero__title">LE PLAISIR VÉGÉTAL, ÇA COMMENCE ICI!</h2>
     <p class="hero__subtext">100% Produits végétaliens, sans matières animales</p>
+
     <div class="hero__buttons">
-      {% render 'g-button', type: 'black-button', text: 'Découvrir les produits', link: '/collections/all' %}
-      <div class="jc-flex jc-items-center">
-        {% render 'g-button', type: 'grey-button', text: 'Créez votre pack', link: '/pages/create-your-pack' %}
-        <span class="hero__badge">jusqu'à -20%</span>
-      </div>
+      <a href="/collections/all" class="hero__button">Découvrir les produits</a>
+      <a href="/pages/create-your-pack" class="hero__button">Créez votre pack <span class="hero__badge">jusqu'à -20%</span></a>
     </div>
+
     <div class="hero__badges">
-      <div class="hero__badge-icon bg-green-200">100% VÉGÉTAL</div>
-      <div class="hero__badge-icon bg-orange-200">100% GOURMAND</div>
-      <div class="hero__badge-icon bg-pink-200">100% FUN</div>
+      <div class="hero__badge-icon">100% VÉGÉTAL</div>
+      <div class="hero__badge-icon">100% GOURMAND</div>
+      <div class="hero__badge-icon">100% FUN</div>
     </div>
   </div>
 </div>
