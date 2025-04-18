@@ -111,7 +111,7 @@
 
   {% # Content %}
   <div class="jc-container jc-relative paddings-{{ section.id }}">
-    <div class="content-paddings-{{ section.id }} jc-max-w-[768px] jc-flex jc-flex-col {% render 'g-horizontal-alignment', root: section %} {{ horizontal_position_dsk }} background-{{ section.id }} jc-gap-4">
+    <div class="content-paddings-{{ section.id }} jc-max-w-[768px] jc-flex jc-flex-col {{ horizontal_position_dsk }} {% render 'g-horizontal-alignment', root: section %} background-{{ section.id }} jc-gap-4">
       {%- if section.settings.tagline != blank -%}
         <span class="jc-uppercase">{{- section.settings.tagline -}}</span>
       {%- endif -%}
@@ -153,9 +153,5 @@
 </div>
 
 {% schema %}
-  {
-    "name": "Hero section",
-    "tag": "section",
-// Schema code from the original codebase
-  }
+{{ section.schema | json }}
 {% endschema %}
