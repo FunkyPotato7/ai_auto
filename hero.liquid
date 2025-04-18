@@ -1,132 +1,54 @@
-{%- liquid
-  assign rating = 5
-  assign star_count = rating | times: 1
--%}
+{%- style -%}
+  .hero {
+    background: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
 
-<section class="hero-section">
-  <div class="hero-content">
-    <div class="stars-and-text">
-      <div class="stars">{% for i in (1..star_count) %}<span>&#9733;</span>{% endfor %}</div>
-      <p class="text">+ 10 000 vegans heureux</p>
+<section class="hero">
+  <div class="jc-grid jc-gap-6 lg:jc-gap-12 jc-px-12 lg:jc-px-48">
+    <div class="jc-col-span-1 lg:jc-col-span-6">
+      <div class="jc-flex jc-items-center jc-gap-2">
+        <div class="jc-text-xl">★★★★★</div>
+        <span>{{ section.settings.review_text }}</span>
+      </div>
+      <h1 class="jc-font-bold jc-text-4xl md:jc-text-7xl jc-leading-tight">{{ section.settings.main_slogan }}</h1>
+      <p class="jc-mt-4 jc-text-xl">{{ section.settings.subtext }}</p>
+
+      <div class="jc-flex jc-gap-4 jc-mt-8">
+        {% render 'g-button', type: 'black-button', text: section.settings.cta_1_text, link: section.settings.cta_1_link %}
+        <div class="jc-flex jc-items-center">
+          {% render 'g-button', type: 'transparent-black-with-arrow', text: section.settings.cta_2_text, link: section.settings.cta_2_link %}
+          <span class="jc-bg-red-600 jc-text-white jc-rounded-full jc-px-2 jc-py-1 jc-ml-2">{{ section.settings.badge_text }}</span>
+        </div>
+      </div>
+
+      <div class="jc-mt-8 jc-flex jc-gap-8">
+        <div>
+          <div class="jc-flex jc-items-center jc-justify-center jc-rounded-full jc-w-16 jc-h-16 jc-bg-orange-100">
+            <span class="jc-text-orange-700 jc-text-3xl">100%</span>
+          </div>
+          <span class="jc-text-center jc-block">{{ section.settings.badge_1_text }}</span>
+        </div>
+        <div>
+          <div class="jc-flex jc-items-center jc-justify-center jc-rounded-full jc-w-16 jc-h-16 jc-bg-yellow-100">
+            <span class="jc-text-yellow-700 jc-text-3xl">100%</span>
+          </div>
+          <span class="jc-text-center jc-block">{{ section.settings.badge_2_text }}</span>
+        </div>
+        <div>
+          <div class="jc-flex jc-items-center jc-justify-center jc-rounded-full jc-w-16 jc-h-16 jc-bg-pink-100">
+            <span class="jc-text-pink-700 jc-text-3xl">100%</span>
+          </div>
+          <span class="jc-text-center jc-block">{{ section.settings.badge_3_text }}</span>
+        </div>
+      </div>
     </div>
-
-    <h1 class="main-slogan">LE PLAISIR VÉGÉTAL,<br>ÇA COMMENCE ICI !</h1>
-    <p class="subtext">100% Produits végétaliens, sans matières animales</p>
-
-    <div class="ctas">
-      <a href="/collections/all" class="main-cta">Découvrir les produits</a>
-      <a href="/pages/custom-pack-configurator" class="secondary-cta">
-        Crééz votre pack
-        <span class="badge">jusqu'à -20%</span>
-      </a>
-    </div>
-
-    <div class="badges">
-      <span class="badge">100% VÉGÉTAL</span>
-      <span class="badge">100% GOURMAND</span>
-      <span class="badge">100% FUN</span>
+    <div class="jc-col-span-1 lg:jc-col-span-6">
+      {%- if section.settings.image != blank -%}
+        <img src="{{ section.settings.image | img_url: '1024x1024' }}" alt="{{ section.settings.image.alt | default: shop.name }}" class="jc-max-w-full jc-h-auto jc-rounded-xl">
+      {%- endif -%}
     </div>
   </div>
 </section>
-
-{% style %}
-.hero-section {
-  background-color: #a7d1ab; /* Example background color */
-  padding: 2rem; /* Adjust padding as needed */
-}
-
-.hero-content {
-  text-align: center;
-  /* Add any other necessary styling */
-}
-
-.stars-and-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.stars {
-  color: gold; /* Example star color */
-  margin-right: 0.5rem;
-}
-
-.stars span {
-  font-size: 1.2rem;
-}
-
-.main-slogan {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.subtext {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
-
-.ctas {
-  display: flex;
-  flex-direction: column; /* Stack CTAs vertically on smaller screens */
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem; /* Space below CTAs */
-}
-
-@media (min-width: 768px) {
-  .ctas {
-    flex-direction: row; /* Align CTAs horizontally on larger screens */
-    justify-content: center;
-  }
-}
-
-.main-cta, .secondary-cta {
-  padding: 1rem 2rem;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  font-weight: bold;
-  transition: all 0.3s ease; /* Add hover effect */
-}
-
-.main-cta {
-  background-color: black;
-  color: white;
-}
-
-.main-cta:hover {
-  background-color: #333; /* Darker background on hover */
-}
-
-.secondary-cta {
-  background-color: #eee;
-  color: black;
-  display: flex; /* Align button text and badge */
-  align-items: center; /* Vertically center badge and text*/
-}
-
-.secondary-cta:hover {
-  background-color: #ddd; /* Lighter background on hover */
-}
-
-.badge {
-  background-color: #e74c3c; /* Example badge color */
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  margin-left: 0.5rem; /* Adjust as needed */
-  white-space: nowrap;
-}
-.badges {
-  display: flex;
-  flex-wrap: wrap; /* To handle badges wrapping to next line if needed */
-  justify-content: center;
-  gap: 10px;
-}
-
-.badges .badge {
-  background-color: #f1c40f; /* Example badge color */
-  color: black;
-}
-{% endstyle %}
