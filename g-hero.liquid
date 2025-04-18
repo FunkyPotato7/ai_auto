@@ -105,12 +105,12 @@
       class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block'
     }}
   {% endif %}
-  
+
   {% # Ovelay %}
   <div
     class="jc-w-full jc-h-full jc-absolute jc-inset-0 jc-bg-[rgba(0,0,0,calc(var(--background-overlay-opacity)/100))]"
   ></div>
-  
+
   {% # Content %}
   <div class="jc-container jc-relative paddings-{{ section.id }}">
     <div class="content-paddings-{{ section.id }} jc-max-w-[768px] jc-flex jc-flex-col {% render 'g-horizontal-alignment', root: section %} {{ horizontal_position_dsk }} background-{{ section.id }} jc-gap-4">
@@ -132,7 +132,7 @@
         </div>
       {%- endif -%}
       <div class="jc-flex jc-flex-col jc-gap-4">
-        {%- if section.settings.button_1_text != blank -%}  
+        {%- if section.settings.button_1_text != blank -%}
           <div class="jc-flex jc-items-center jc-gap-4 {% render 'g-horizontal-alignment', root: section, direction: 'row' %}">
             {% # There we render button based on settings from customizer %}
             {% if section.settings.button_1_style == 'transparent-black-with-arrow' %}
@@ -140,7 +140,7 @@
             {% else %}
               {% assign icon_button_1 = '' %}
             {% endif %}
-            {% render 'g-button', 
+            {% render 'g-button',
               type: section.settings.button_1_style,
               text: section.settings.button_1_text,
               link: section.settings.button_1_link,
@@ -169,7 +169,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "ðŸ“  Layout (desktop)"
+      "content": "📐 Layout (desktop)"
     },
     {
       "type": "range",
@@ -229,7 +229,7 @@
     },
     {
       "type": "header",
-      "content": "ðŸ“  Layout (mobile)"
+      "content": "📱 Layout (mobile)"
     },
     {
       "type": "range",
@@ -269,7 +269,7 @@
     },
     {
       "type": "header",
-      "content": "ðŸŽ¨ Design"
+      "content": "🎨 Design"
     },
     {
       "type": "color_background",
@@ -308,7 +308,7 @@
     },
     {
       "type": "header",
-      "content": "â­ ï¸  Reviews reassurance text"
+      "content": "⭐ Reviews reassurance text"
     },
     {
       "type": "text",
@@ -349,7 +349,7 @@
     },
     {
       "type": "header",
-      "content": "ðŸ”˜ Buttons settings"
+      "content": "🔗 Buttons settings"
     },
     {
       "type": "text",
@@ -381,7 +381,7 @@
       "type": "url",
       "id": "button_1_link",
       "label": "Add button link"
-    }    
+    }
   ],
   "presets": [
     {
