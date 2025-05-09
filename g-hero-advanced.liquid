@@ -1,0 +1,648 @@
+{% comment %}
+  Section: "g-hero-advanced"
+
+  Snippets:
+  - g-button
+  - g-render-image
+  - g-render-stars
+{% endcomment %}
+
+{%- liquid
+  function get_text_align_class = alignment_value, prefix: ''
+    case alignment_value
+      when 'left'
+        echo prefix | append: 'jc-text-left'
+      when 'center'
+        echo prefix | append: 'jc-text-center'
+      when 'right'
+        echo prefix | append: 'jc-text-right'
+    endcase
+  endfunction
+
+  function get_items_align_class = alignment_value, prefix: ''
+    case alignment_value
+      when 'left'
+        echo prefix | append: 'jc-items-start'
+      when 'center'
+        echo prefix | append: 'jc-items-center'
+      when 'right'
+        echo prefix | append: 'jc-items-end'
+    endcase
+  endfunction
+  
+  function get_justify_content_class = alignment_value, prefix: ''
+    case alignment_value
+      when 'left'
+        echo prefix | append: 'jc-justify-start'
+      when 'center'
+        echo prefix | append: 'jc-justify-center'
+      when 'right'
+        echo prefix | append: 'jc-justify-end'
+    endcase
+  endfunction
+
+  assign content_col_text_align_mob = get_text_align_class section.settings.content_horizontal_alignment_mob
+  assign content_col_items_align_mob = get_items_align_class section.settings.content_horizontal_alignment_mob
+  assign content_col_justify_mob = get_justify_content_class section.settings.content_horizontal_alignment_mob
+
+  assign content_col_text_align_dsk = get_text_align_class section.settings.content_horizontal_alignment_dsk, prefix: 'md:'
+  assign content_col_items_align_dsk = get_items_align_class section.settings.content_horizontal_alignment_dsk, prefix: 'md:'
+  assign content_col_justify_dsk = get_justify_content_class section.settings.content_horizontal_alignment_dsk, prefix: 'md:'
+
+  assign content_col_vertical_align_dsk = 'md:jc-justify-center'
+  if section.settings.content_vertical_alignment_dsk == 'top'
+    assign content_col_vertical_align_dsk = 'md:jc-justify-start'
+  elsif section.settings.content_vertical_alignment_dsk == 'bottom'
+    assign content_col_vertical_align_dsk = 'md:jc-justify-end'
+  endif
+
+  assign has_image_column = false
+  if section.settings.hero_main_image_dsk != blank or section.settings.hero_main_image_mob != blank
+    assign has_image_column = true
+  endif
+%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-overlay-opacity: {{ section.settings.background_overlay }};
+    --content-text-color: {{ section.settings.content_text_color | default: 'currentColor' }};
+    --pre-heading-text-color: {{ section.settings.pre_heading_text_color | default: 'var(--content-text-color)' }};
+    --heading-text-color: {{ section.settings.heading_color | default: 'var(--content-text-color)' }};
+    --description-text-color: {{ section.settings.description_color | default: 'var(--content-text-color)' }};
+    --button-2-tag-bg-color: {{ section.settings.button_2_tag_bg_color | default: '#dc2626' }};
+    --button-2-tag-text-color: {{ section.settings.button_2_tag_text_color | default: '#ffffff' }};
+  }
+
+  .background-{{ section.id }} {
+    background: {{ section.settings.background_color }};
+  }
+
+  .paddings-{{ section.id }} {
+    padding-top: {{ section.settings.padding_mob_t }}px;
+    padding-bottom: {{ section.settings.padding_mob_b }}px;
+  }
+  
+  .content-text-{{ section.id }} {
+    color: var(--content-text-color);
+  }
+
+  .pre-heading-text-{{ section.id }} {
+    color: var(--pre-heading-text-color);
+  }
+
+  .heading-text-{{ section.id }} {
+    color: var(--heading-text-color);
+  }
+
+  .description-text-{{ section.id }} {
+    color: var(--description-text-color);
+  }
+  
+  .button-2-tag-{{ section.id }} {
+    background-color: var(--button-2-tag-bg-color);
+    color: var(--button-2-tag-text-color);
+  }
+
+  {% for block in section.blocks %}
+    {% if block.type == 'badge' %}
+      .badge-{{ block.id }} {
+        background-color: {{ block.settings.badge_bg_color | default: '#e5e7eb' }};
+        color: {{ block.settings.badge_text_color | default: '#1f2937' }};
+      }
+    {% endif %}
+  {% endfor %}
+
+  @media screen and (min-width: 768px) {
+    .paddings-{{ section.id }} {
+      padding-top: {{ section.settings.padding_dsk_t }}px;
+      padding-bottom: {{ section.settings.padding_dsk_b }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="background-{{ section.id }} jc-relative content-text-{{ section.id }}">
+  {% # Mobile background image %}
+  {% assign bg_image_mob = section.settings.background_image_mob %}
+  {% if bg_image_mob != blank %}
+    {% render 'g-render-image',
+      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover md:jc-hidden',
+      img_src: bg_image_mob.url,
+      img: bg_image_mob,
+      size: '600 1000 1400',
+      alt: bg_image_mob.alt | default: 'Background image mobile',
+      loading: 'eager'
+    %}
+  {% endif %}
+
+  {% # Mobile background video %}
+  {% assign bg_video_mob = section.settings.background_video_mob %}
+  {% if bg_video_mob != blank %}
+    {{bg_video_mob | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover md:jc-hidden'}}
+  {% endif %}
+
+  {% # Desktop background image %}
+  {% assign bg_image_dsk = section.settings.background_image_dsk %}
+  {% if bg_image_dsk != blank %}
+    {% render 'g-render-image',
+      class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block',
+      img_src: bg_image_dsk.url,
+      img: bg_image_dsk,
+      size: '1000 1400 1800 2000',
+      alt: bg_image_dsk.alt | default: 'Background image desktop',
+      loading: 'eager'
+    %}
+  {% endif %}
+
+  {% # Desktop background video %}
+  {% assign bg_video_dsk = section.settings.background_video_dsk %}
+  {% if bg_video_dsk != blank %}
+    {{bg_video_dsk | video_tag: autoplay: true, loop: true, muted: true, controls: false, class: 'jc-w-full jc-h-full jc-absolute jc-inset-0 jc-object-cover jc-hidden md:jc-block'}}
+  {% endif %}
+  
+  {% # Overlay %}
+  <div class="jc-w-full jc-h-full jc-absolute jc-inset-0 jc-bg-[rgba(0,0,0,calc(var(--background-overlay-opacity)/100))]"></div>
+  
+  <div class="jc-container jc-relative paddings-{{ section.id }}">
+    <div class="jc-flex jc-flex-col md:jc-flex-row md:jc-items-stretch jc-gap-x-8 jc-gap-y-10 {% if has_image_column == false %}md:jc-justify-center{% else %}md:jc-justify-between{% endif %} jc-items-center">
+      {# Left Content Column #}
+      <div class="jc-flex-1 md:jc-grow-0 md:jc-shrink jc-flex jc-flex-col {{ content_col_vertical_align_dsk }} {{ content_col_items_align_mob }} {{ content_col_text_align_mob }} {{ content_col_items_align_dsk }} {{ content_col_text_align_dsk }}"
+           style="max-width: {{ section.settings.content_col_max_width_dsk }}px; flex-basis: {{ section.settings.content_col_max_width_dsk }}px;">
+        
+        {% # Pre-heading with Stars #}
+        {% if section.settings.show_pre_heading %}
+          <div class="jc-flex jc-items-center jc-gap-2 {{ content_col_justify_mob }} {{ content_col_justify_dsk }} jc-mb-3 pre-heading-text-{{ section.id }}">
+            {% if section.settings.pre_heading_rating > 0 %}
+              {% render 'g-render-stars', rating: section.settings.pre_heading_rating %}
+            {% endif %}
+            {% if section.settings.pre_heading_text != blank %}
+              <p class="jc-text-sm jc-font-medium">{{ section.settings.pre_heading_text }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% # Heading #}
+        {% if section.settings.heading != blank %}
+          <h1 class="jc-text-4xl md:jc-text-5xl lg:jc-text-6xl jc-font-bold jc-leading-tight jc-mb-4 heading-text-{{ section.id }}">
+            {{ section.settings.heading }}
+          </h1>
+        {% endif %}
+
+        {% # Description #}
+        {% if section.settings.description != blank %}
+          <div class="jc-text-base md:jc-text-lg jc-leading-relaxed jc-mb-6 description-text-{{ section.id }}">
+            {{ section.settings.description }}
+          </div>
+        {% endif %}
+
+        {% # Buttons #}
+        <div class="jc-flex jc-flex-col sm:jc-flex-row jc-flex-wrap jc-gap-4 jc-mb-8 {{ content_col_justify_mob }} {{ content_col_justify_dsk }}">
+          {% if section.settings.button_1_text != blank %}
+            {% render 'g-button',
+              type: section.settings.button_1_style,
+              text: section.settings.button_1_text,
+              link: section.settings.button_1_link,
+              custom_class: section.settings.button_1_custom_class
+            %}
+          {% endif %}
+          {% if section.settings.button_2_text != blank %}
+            <div class="jc-relative">
+              {% if section.settings.button_2_tag_text != blank %}
+                <div class="button-2-tag-{{ section.id }} jc-absolute -jc-top-2.5 jc-left-1/2 -jc-translate-x-1/2 jc-transform jc-px-2 jc-py-0.5 jc-text-xs jc-font-semibold jc-rounded-md jc-whitespace-nowrap z-10">
+                  {{ section.settings.button_2_tag_text }}
+                </div>
+              {% endif %}
+              {% render 'g-button',
+                type: section.settings.button_2_style,
+                text: section.settings.button_2_text,
+                link: section.settings.button_2_link,
+                custom_class: section.settings.button_2_custom_class
+              %}
+            </div>
+          {% endif %}
+        </div>
+
+        {% # Badges #}
+        {% if section.settings.show_badges and section.blocks.size > 0 %}
+          <div class="jc-flex jc-flex-wrap jc-gap-4 {{ content_col_justify_mob }} {{ content_col_justify_dsk }}">
+            {% for block in section.blocks limit: 3 %}
+              {% if block.type == 'badge' %}
+                <div class="badge-{{ block.id }} jc-w-28 jc-h-28 md:jc-w-32 md:jc-h-32 jc-rounded-full jc-flex jc-items-center jc-justify-center jc-text-center jc-p-2 jc-font-semibold jc-text-xs md:jc-text-sm jc-leading-tight">
+                  <span>{{ block.settings.badge_text }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {# Right Image Column #}
+      {% if has_image_column %}
+        <div class="jc-flex-1 md:jc-grow-0 md:jc-shrink jc-flex jc-items-center {% if section.settings.content_horizontal_alignment_mob == 'center' %}jc-justify-center{% elsif section.settings.content_horizontal_alignment_mob == 'right' %}jc-justify-end{% else %}jc-justify-start{% endif %} md:jc-justify-end"
+             style="max-width: {{ section.settings.image_col_max_width_dsk }}px; flex-basis: {{ section.settings.image_col_max_width_dsk }}px;">
+          {% assign hero_image_mob_src = section.settings.hero_main_image_mob | default: section.settings.hero_main_image_dsk %}
+          {% assign hero_image_dsk_src = section.settings.hero_main_image_dsk | default: section.settings.hero_main_image_mob %}
+
+          {% if hero_image_mob_src != blank %}
+            {% render 'g-render-image',
+              class: 'jc-max-w-full jc-h-auto jc-block md:jc-hidden',
+              img: hero_image_mob_src,
+              alt: section.settings.hero_main_image_alt | default: hero_image_mob_src.alt | default: 'Hero image mobile',
+              size: '300 400 500 600',
+              loading: 'eager'
+            %}
+          {% endif %}
+          {% if hero_image_dsk_src != blank %}
+            {% render 'g-render-image',
+              class: 'jc-max-w-full jc-h-auto jc-hidden md:jc-block',
+              img: hero_image_dsk_src,
+              alt: section.settings.hero_main_image_alt | default: hero_image_dsk_src.alt | default: 'Hero image desktop',
+              size: '400 500 600 700',
+              loading: 'eager'
+            %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Advanced",
+  "tag": "section",
+  "class": "jc-section-hero-advanced",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout (Overall Section)"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_t",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_b",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_t",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_b",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Layout (Content Column)"
+    },
+    {
+      "type": "select",
+      "id": "content_horizontal_alignment_mob",
+      "label": "Horizontal Alignment (Mobile)",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_horizontal_alignment_dsk",
+      "label": "Horizontal Alignment (Desktop)",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_vertical_alignment_dsk",
+      "label": "Vertical Alignment (Desktop)",
+      "options": [
+        {"value": "top", "label": "Top"},
+        {"value": "center", "label": "Center"},
+        {"value": "bottom", "label": "Bottom"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_col_max_width_dsk",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "default": 600,
+      "unit": "px",
+      "label": "Max Width Content Column (Desktop)"
+    },
+    {
+      "type": "header",
+      "content": "Design (Background)"
+    },
+    {
+      "type": "color_background",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "linear-gradient(180deg, #E6F0E6, #D9E9D9)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_dsk",
+      "label": "Background Image (Desktop)"
+    },
+    {
+      "type": "video",
+      "id": "background_video_dsk",
+      "label": "Background Video (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mob",
+      "label": "Background Image (Mobile)"
+    },
+    {
+      "type": "video",
+      "id": "background_video_mob",
+      "label": "Background Video (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "background_overlay",
+      "label": "Background Overlay Opacity",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Content (Text & Colors)"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "General Text Color",
+      "default": "#374151"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pre_heading",
+      "label": "Show Pre-heading Stars/Text",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "pre_heading_rating",
+      "label": "Pre-heading Stars (1-5)",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "pre_heading_text",
+      "label": "Pre-heading Text",
+      "default": "+ 10 000 vegans heureux"
+    },
+    {
+      "type": "color",
+      "id": "pre_heading_text_color",
+      "label": "Pre-heading Text Color"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "LE PLAISIR VÉGÉTAL, ÇA COMMENCE ICI !"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>100% Produits végétaliens, sans matières animales.</p>"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button 1 Text",
+      "default": "Découvrir les produits"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "select",
+      "id": "button_1_style",
+      "label": "Button 1 Style",
+      "options": [
+        {"value": "primary", "label": "Primary"},
+        {"value": "secondary", "label": "Secondary"},
+        {"value": "black-button", "label": "Black Solid"},
+        {"value": "white-button", "label": "White Solid"},
+        {"value": "transparent-black", "label": "Transparent Black"},
+        {"value": "transparent-white", "label": "Transparent White"}
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "text",
+      "id": "button_1_custom_class",
+      "label": "Button 1 Custom CSS Class(es)",
+      "info": "E.g., for custom styling if predefined styles are not enough."
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Text",
+      "default": "Créez votre pack"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "select",
+      "id": "button_2_style",
+      "label": "Button 2 Style",
+      "options": [
+        {"value": "primary", "label": "Primary"},
+        {"value": "secondary", "label": "Secondary"},
+        {"value": "black-button", "label": "Black Solid"},
+        {"value": "white-button", "label": "White Solid"},
+        {"value": "transparent-black", "label": "Transparent Black"},
+        {"value": "transparent-white", "label": "Transparent White"}
+      ],
+      "default": "secondary"
+    },
+    {
+      "type": "text",
+      "id": "button_2_custom_class",
+      "label": "Button 2 Custom CSS Class(es)"
+    },
+    {
+      "type": "text",
+      "id": "button_2_tag_text",
+      "label": "Button 2 Tag Text",
+      "default": "jusqu'à -20%"
+    },
+    {
+      "type": "color",
+      "id": "button_2_tag_bg_color",
+      "label": "Button 2 Tag Background Color",
+      "default": "#EF4444"
+    },
+    {
+      "type": "color",
+      "id": "button_2_tag_text_color",
+      "label": "Button 2 Tag Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Badges (Max 3)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "label": "Show Badges",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Image Column"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_main_image_dsk",
+      "label": "Main Image (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_main_image_mob",
+      "label": "Main Image (Mobile)",
+      "info": "If blank, desktop image is used."
+    },
+    {
+      "type": "text",
+      "id": "hero_main_image_alt",
+      "label": "Main Image Alt Text",
+      "default": "Product display"
+    },
+    {
+      "type": "range",
+      "id": "image_col_max_width_dsk",
+      "min": 200,
+      "max": 700,
+      "step": 10,
+      "default": 500,
+      "unit": "px",
+      "label": "Max Width Image Column (Desktop)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "100% VÉGÉTAL"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg_color",
+          "label": "Background Color",
+          "default": "#D1FAE5"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Text Color",
+          "default": "#065F46"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Advanced",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "badge_text": "100% VÉGÉTAL",
+            "badge_bg_color": "#A7F3D0",
+            "badge_text_color": "#047857"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "badge_text": "100% GOURMAND",
+            "badge_bg_color": "#FDE68A",
+            "badge_text_color": "#92400E"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "badge_text": "100% FUN",
+            "badge_bg_color": "#FBCFE8",
+            "badge_text_color": "#9D174D"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
