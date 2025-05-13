@@ -1,0 +1,506 @@
+{% comment %}
+  Section: "g-hero-text-left-image-right"
+
+  Snippets:
+  - g-render-image
+  - g-horizontal-alignment
+  - g-render-stars
+  - g-button
+{% endcomment %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --background-color: {{ section.settings.background_color }};
+    --text-color: {{ section.settings.text_color }};
+    --heading-color: {{ section.settings.heading_color }};
+    --badge-1-bg-color: {{ section.settings.badge_1_bg_color }};
+    --badge-1-text-color: {{ section.settings.badge_1_text_color }};
+    --badge-2-bg-color: {{ section.settings.badge_2_bg_color }};
+    --badge-2-text-color: {{ section.settings.badge_2_text_color }};
+    --badge-3-bg-color: {{ section.settings.badge_3_bg_color }};
+    --badge-3-text-color: {{ section.settings.badge_3_text_color }};
+    --button-1-bg-color: {{ section.settings.button_1_bg_color }};
+    --button-1-text-color: {{ section.settings.button_1_text_color }};
+    --button-2-bg-color: {{ section.settings.button_2_bg_color }};
+    --button-2-text-color: {{ section.settings.button_2_text_color }};
+    --button-2-tag-bg-color: {{ section.settings.button_2_tag_bg_color }};
+    --button-2-tag-text-color: {{ section.settings.button_2_tag_text_color }};
+  }
+
+  .background-{{ section.id }} {
+    background: var(--background-color);
+    color: var(--text-color);
+  }
+
+  .paddings-{{ section.id }} {
+    padding-top: {{ section.settings.padding_mob_t }}px;
+    padding-bottom: {{ section.settings.padding_mob_b }}px;
+  }
+
+  .heading-color-{{ section.id }} {
+    color: var(--heading-color);
+  }
+
+  @media screen and (min-width: 768px) {
+    .paddings-{{ section.id }} {
+      padding-top: {{ section.settings.padding_dsk_t }}px;
+      padding-bottom: {{ section.settings.padding_dsk_b }}px;
+    }
+  }
+
+  .hero-badge-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ section.settings.badge_size }}px;
+    height: {{ section.settings.badge_size }}px;
+    border-radius: 50%;
+    font-weight: 600; /* semibold */
+    font-size: {{ section.settings.badge_font_size }}px;
+    text-align: center;
+    line-height: 1.2;
+    padding: 4px;
+  }
+
+  .g-button--custom-style-1-{{ section.id }} {
+    background-color: var(--button-1-bg-color);
+    color: var(--button-1-text-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-weight: 600;
+  }
+  .g-button--custom-style-1-{{ section.id }}:hover {
+    opacity: 0.9;
+  }
+
+  .g-button--custom-style-2-{{ section.id }} {
+    background-color: var(--button-2-bg-color);
+    color: var(--button-2-text-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    font-weight: 600;
+  }
+  .g-button--custom-style-2-{{ section.id }}:hover {
+    opacity: 0.9;
+  }
+{% endstyle %}
+
+<div class="background-{{ section.id }} jc-relative">
+  <div class="jc-container paddings-{{ section.id }}">
+    <div class="jc-flex jc-flex-col md:jc-flex-row md:jc-items-center md:jc-gap-x-8 lg:jc-gap-x-12">
+      {% # Left Column %}
+      <div class="jc-w-full md:jc-w-1/2 jc-flex jc-flex-col jc-gap-y-4 md:jc-gap-y-6 {% render 'g-horizontal-alignment', root: section %}">
+        {%- if section.settings.show_reviews -%}
+          <div class="jc-flex jc-items-center jc-gap-x-2 {% if section.settings.horizontal_alignment_mob == 'center' %}jc-justify-center{% elsif section.settings.horizontal_alignment_mob == 'right' %}jc-justify-end{% else %}jc-justify-start{% endif %} {% if section.settings.horizontal_alignment_dsk == 'center' %}md:jc-justify-center{% elsif section.settings.horizontal_alignment_dsk == 'right' %}md:jc-justify-end{% else %}md:jc-justify-start{% endif %}">
+            {% render 'g-render-stars', rating: section.settings.review_stars %}
+            {%- if section.settings.review_text != blank -%}
+              <span class="jc-text-sm">{{ section.settings.review_text }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="heading-color-{{ section.id }} jc-font-bold jc-text-4xl md:jc-text-5xl lg:jc-text-[52px] jc-leading-tight lg:jc-leading-tight">
+            {{ section.settings.heading | newline_to_br }}
+          </h1>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <div class="jc-text-base md:jc-text-lg jc-leading-relaxed">
+            {{ section.settings.subheading | newline_to_br }}
+          </div>
+        {%- endif -%}
+
+        {% # Buttons %}
+        <div class="jc-flex jc-flex-col sm:jc-flex-row jc-gap-3 md:jc-gap-4 jc-mt-2 {% if section.settings.horizontal_alignment_mob == 'center' %}jc-items-center{% elsif section.settings.horizontal_alignment_mob == 'right' %}jc-items-end{% else %}jc-items-start{% endif %} {% if section.settings.horizontal_alignment_dsk == 'center' %}md:jc-items-center{% elsif section.settings.horizontal_alignment_dsk == 'right' %}md:jc-items-end{% else %}md:jc-items-start{% endif %}">
+          {%- if section.settings.button_1_text != blank -%}
+            {% render 'g-button',
+              type: 'custom-style-1-' | append: section.id,
+              text: section.settings.button_1_text,
+              link: section.settings.button_1_link
+            %}
+          {%- endif -%}
+          {%- if section.settings.button_2_text != blank -%}
+            <div class="jc-relative">
+              {% render 'g-button',
+                type: 'custom-style-2-' | append: section.id,
+                text: section.settings.button_2_text,
+                link: section.settings.button_2_link
+              %}
+              {%- if section.settings.button_2_tag_text != blank -%}
+                <span 
+                  class="jc-absolute -jc-top-2.5 -jc-right-3.5 jc-text-[10px] jc-font-bold jc-px-2 jc-py-0.5 jc-rounded jc-transform -jc-rotate-[15deg] jc-whitespace-nowrap"
+                  style="background-color: var(--button-2-tag-bg-color); color: var(--button-2-tag-text-color);"
+                >
+                  {{ section.settings.button_2_tag_text }}
+                </span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {% # Badges %}
+        {% assign badges_present = false %}
+        {% if section.settings.badge_1_text != blank or section.settings.badge_2_text != blank or section.settings.badge_3_text != blank %}
+          {% assign badges_present = true %}
+        {% endif %}
+
+        {% if badges_present %}
+          <div class="jc-flex jc-gap-3 md:jc-gap-4 jc-flex-wrap jc-mt-4 {% if section.settings.horizontal_alignment_mob == 'center' %}jc-justify-center{% elsif section.settings.horizontal_alignment_mob == 'right' %}jc-justify-end{% else %}jc-justify-start{% endif %} {% if section.settings.horizontal_alignment_dsk == 'center' %}md:jc-justify-center{% elsif section.settings.horizontal_alignment_dsk == 'right' %}md:jc-justify-end{% else %}md:jc-justify-start{% endif %}">
+            {%- if section.settings.badge_1_text != blank -%}
+              <div class="hero-badge-{{ section.id }}" style="background-color: var(--badge-1-bg-color); color: var(--badge-1-text-color);">
+                {{ section.settings.badge_1_text }}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.badge_2_text != blank -%}
+              <div class="hero-badge-{{ section.id }}" style="background-color: var(--badge-2-bg-color); color: var(--badge-2-text-color);">
+                {{ section.settings.badge_2_text }}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.badge_3_text != blank -%}
+              <div class="hero-badge-{{ section.id }}" style="background-color: var(--badge-3-bg-color); color: var(--badge-3-text-color);">
+                {{ section.settings.badge_3_text }}
+              </div>
+            {%- endif -%}
+          </div>
+        {% endif %}
+      </div>
+
+      {% # Right Column %}
+      <div class="jc-w-full md:jc-w-1/2 jc-mt-8 md:jc-mt-0 {% if section.settings.image_alignment_mob == 'center' %}jc-mx-auto{% endif %} {% if section.settings.image_alignment_dsk == 'center' %}md:jc-mx-auto{% elsif section.settings.image_alignment_dsk == 'right' %}md:jc-ml-auto{% endif %}" style="max-width: {{ section.settings.image_max_width }}px;">
+        {%- if section.settings.hero_image_right != blank -%}
+          {% render 'g-render-image',
+            class: 'jc-w-full jc-h-auto jc-object-contain',
+            img_src: section.settings.hero_image_right.url,
+            img: section.settings.hero_image_right,
+            size: '400 600 800',
+            alt: section.settings.hero_image_right.alt | default: section.settings.heading,
+            loading: 'eager'
+          %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero: Text Left, Image Right",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_t",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Top Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_b",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60,
+      "unit": "px",
+      "label": "Bottom Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_t",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Top Padding (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_b",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Bottom Padding (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Left Column: Content"
+    },
+    {
+      "type": "text_alignment",
+      "id": "horizontal_alignment_dsk",
+      "label": "Content Alignment (Desktop)",
+      "default": "left"
+    },
+    {
+      "type": "text_alignment",
+      "id": "horizontal_alignment_mob",
+      "label": "Content Alignment (Mobile)",
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show Reviews/Stars",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "review_stars",
+      "label": "Review Stars",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "review_text",
+      "label": "Review Text",
+      "default": "+ 10 000 vegans heureux"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "LE PLAISIR VÉGÉTAL,\nÇA COMMENCE ICI !"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "100% Produits végétaliens, sans matières animales"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button 1 Text",
+      "default": "Découvrir les produits"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Text",
+      "default": "Créez votre pack"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "text",
+      "id": "button_2_tag_text",
+      "label": "Button 2 Tag Text",
+      "default": "jusqu'à -20%"
+    },
+    {
+      "type": "header",
+      "content": "Badges"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "label": "Badge Size (diameter)",
+      "min": 50,
+      "max": 120,
+      "step": 2,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Badge Font Size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Badge 1 Text",
+      "default": "100% VÉGÉTAL"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Badge 2 Text",
+      "default": "100% GOURMAND"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Badge 3 Text",
+      "default": "100% FUN"
+    },
+    {
+      "type": "header",
+      "content": "Right Column: Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_right",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_max_width",
+      "label": "Image Max Width",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "default": 500,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "image_alignment_dsk",
+      "label": "Image Horizontal Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "image_alignment_mob",
+      "label": "Image Horizontal Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#E0F2E9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "General Text Color",
+      "default": "#374151"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1F2937"
+    },
+    {
+      "type": "color",
+      "id": "button_1_bg_color",
+      "label": "Button 1 Background",
+      "default": "#FDBA74" /* Approx orange */
+    },
+    {
+      "type": "color",
+      "id": "button_1_text_color",
+      "label": "Button 1 Text",
+      "default": "#374151"
+    },
+    {
+      "type": "color",
+      "id": "button_2_bg_color",
+      "label": "Button 2 Background",
+      "default": "#6B7280" /* Approx grey */
+    },
+    {
+      "type": "color",
+      "id": "button_2_text_color",
+      "label": "Button 2 Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_2_tag_bg_color",
+      "label": "Button 2 Tag Background",
+      "default": "#DC2626" /* Approx red */
+    },
+    {
+      "type": "color",
+      "id": "button_2_tag_text_color",
+      "label": "Button 2 Tag Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "badge_1_bg_color",
+      "label": "Badge 1 Background",
+      "default": "#A7F3D0" /* Approx light green */
+    },
+    {
+      "type": "color",
+      "id": "badge_1_text_color",
+      "label": "Badge 1 Text",
+      "default": "#1F2937"
+    },
+    {
+      "type": "color",
+      "id": "badge_2_bg_color",
+      "label": "Badge 2 Background",
+      "default": "#FDBA74" /* Approx light orange */
+    },
+    {
+      "type": "color",
+      "id": "badge_2_text_color",
+      "label": "Badge 2 Text",
+      "default": "#1F2937"
+    },
+    {
+      "type": "color",
+      "id": "badge_3_bg_color",
+      "label": "Badge 3 Background",
+      "default": "#FECACA" /* Approx light pink */
+    },
+    {
+      "type": "color",
+      "id": "badge_3_text_color",
+      "label": "Badge 3 Text",
+      "default": "#1F2937"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero: Text Left, Image Right",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}
