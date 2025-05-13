@@ -1,0 +1,496 @@
+{% comment %}
+  Section: "g-hero-split-image-text"
+
+  Snippets:
+  - g-button
+  - g-render-image
+  - g-render-stars
+  - g-horizontal-alignment (adapted for text column)
+{% endcomment %}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --g-hero-heading-color: {{ section.settings.heading_color }};
+    --g-hero-subheading-color: {{ section.settings.subheading_color }};
+    --g-hero-rating-text-color: {{ section.settings.rating_text_color }};
+    --g-hero-button-badge-bg-color: {{ section.settings.button_2_badge_bg_color }};
+    --g-hero-button-badge-text-color: {{ section.settings.button_2_badge_text_color }};
+  }
+
+  .background-{{ section.id }} {
+    background: {{ section.settings.background_color_section }};
+  }
+
+  .section-paddings-{{ section.id }} {
+    padding-top: {{ section.settings.padding_mob_t }}px;
+    padding-bottom: {{ section.settings.padding_mob_b }}px;
+  }
+
+  .text-column-paddings-{{ section.id }} {
+    padding: {{ section.settings.content_padding_mob }}px;
+  }
+
+  .g-hero-heading-{{ section.id }} {
+    color: var(--g-hero-heading-color);
+  }
+
+  .g-hero-subheading-{{ section.id }} {
+    color: var(--g-hero-subheading-color);
+  }
+  .g-hero-subheading-{{ section.id }} p {
+    color: var(--g-hero-subheading-color);
+  }
+
+  .g-hero-rating-text-{{ section.id }} {
+    color: var(--g-hero-rating-text-color);
+  }
+
+  .g-hero-circular-badge-{{ section.id }} {
+    width: 80px; /* Approx from image */
+    height: 80px;
+    font-size: 0.75rem; /* text-xs */
+    line-height: 1rem; /* leading-4 */
+    font-weight: 600; /* semibold */
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-paddings-{{ section.id }} {
+      padding-top: {{ section.settings.padding_dsk_t }}px;
+      padding-bottom: {{ section.settings.padding_dsk_b }}px;
+    }
+    .text-column-paddings-{{ section.id }} {
+      padding: {{ section.settings.content_padding_dsk }}px;
+    }
+    .g-hero-circular-badge-{{ section.id }} {
+      width: 100px; 
+      height: 100px;
+      font-size: 0.875rem; /* text-sm */
+    }
+  }
+
+  .g-hero-button-badge-{{ section.id }} {
+    background-color: var(--g-hero-button-badge-bg-color);
+    color: var(--g-hero-button-badge-text-color);
+  }
+{% endstyle %}
+
+<div class="background-{{ section.id }} section-paddings-{{ section.id }}">
+  <div class="jc-container">
+    <div class="jc-grid jc-grid-cols-1 md:jc-grid-cols-2 jc-gap-8 jc-items-center">
+      {% # Left Column: Text Content %}
+      <div
+        class="text-column-paddings-{{ section.id }} jc-flex jc-flex-col jc-gap-y-4 md:jc-gap-y-6 {% render 'g-horizontal-alignment', scope: 'text', section_settings: section.settings %}"
+      >
+        {%- if section.settings.show_rating -%}
+          <div class="jc-flex jc-items-center jc-gap-2 {% render 'g-horizontal-alignment', scope: 'text', section_settings: section.settings, direction: 'row' %}">
+            {%- if section.settings.rating_value > 0 -%}
+              {% render 'g-render-stars', rating: section.settings.rating_value %}
+            {%- endif -%}
+            {%- if section.settings.rating_text != blank -%}
+              <p class="jc-text-sm g-hero-rating-text-{{ section.id }}">{{ section.settings.rating_text }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="jc-text-3xl md:jc-text-4xl lg:jc-text-5xl jc-font-bold g-hero-heading-{{ section.id }} jc-leading-tight">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subheading != blank -%}
+          <div class="jc-text-base md:jc-text-lg g-hero-subheading-{{ section.id }} jc-leading-relaxed">
+            {{ section.settings.subheading }}
+          </div>
+        {%- endif -%}
+
+        {% # Buttons %}
+        <div class="jc-flex jc-flex-col sm:jc-flex-row jc-gap-3 jc-mt-4 {% render 'g-horizontal-alignment', scope: 'text', section_settings: section.settings, direction: 'row', items_only: true %}">
+          {%- if section.settings.button_1_text != blank -%}
+            {% render 'g-button',
+              type: section.settings.button_1_style,
+              text: section.settings.button_1_text,
+              link: section.settings.button_1_link
+            %}
+          {%- endif -%}
+          {%- if section.settings.button_2_text != blank -%}
+            <div class="jc-relative">
+              {% render 'g-button',
+                type: section.settings.button_2_style,
+                text: section.settings.button_2_text,
+                link: section.settings.button_2_link
+              %}
+              {%- if section.settings.button_2_show_badge and section.settings.button_2_badge_text != blank -%}
+                <span
+                  class="g-hero-button-badge-{{ section.id }} jc-absolute -jc-top-2.5 -jc-right-2.5 jc-px-2 jc-py-0.5 jc-text-xs jc-font-semibold jc-rounded-md"
+                >
+                  {{ section.settings.button_2_badge_text }}
+                </span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {% # Circular Badges %}
+        <div class="jc-flex jc-gap-3 jc-mt-6 {% render 'g-horizontal-alignment', scope: 'text', section_settings: section.settings, direction: 'row', items_only: true %}">
+          {%- if section.settings.badge_1_text != blank -%}
+            <div
+              class="g-hero-circular-badge-{{ section.id }} jc-rounded-full jc-flex jc-items-center jc-justify-center jc-p-2 jc-text-center jc-break-words"
+              style="background-color: {{ section.settings.badge_1_bg_color }}; color: {{ section.settings.badge_1_text_color }};"
+            >
+              <span>{{ section.settings.badge_1_text }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.badge_2_text != blank -%}
+            <div
+              class="g-hero-circular-badge-{{ section.id }} jc-rounded-full jc-flex jc-items-center jc-justify-center jc-p-2 jc-text-center jc-break-words"
+              style="background-color: {{ section.settings.badge_2_bg_color }}; color: {{ section.settings.badge_2_text_color }};"
+            >
+              <span>{{ section.settings.badge_2_text }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.badge_3_text != blank -%}
+            <div
+              class="g-hero-circular-badge-{{ section.id }} jc-rounded-full jc-flex jc-items-center jc-justify-center jc-p-2 jc-text-center jc-break-words"
+              style="background-color: {{ section.settings.badge_3_bg_color }}; color: {{ section.settings.badge_3_text_color }};"
+            >
+             <span> {{ section.settings.badge_3_text }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {% # Right Column: Image Content %}
+      <div class="jc-relative jc-flex jc-justify-center {{ section.settings.decorative_image_align_vertical }} {{ section.settings.decorative_image_align_horizontal }}">
+        {%- if section.settings.main_image != blank -%}
+          {% render 'g-render-image',
+            img: section.settings.main_image,
+            alt: section.settings.main_image.alt | default: 'Main product image',
+            class: 'jc-max-w-full jc-h-auto jc-rounded-lg',
+            size: '600 800 1000'
+          %}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'jc-w-full jc-h-auto jc-bg-gray-200 jc-rounded-lg jc-text-gray-500' }}
+        {%- endif -%}
+
+        {%- if section.settings.decorative_image != blank -%}
+          <div class="jc-absolute jc-z-10" style="width: {{ section.settings.decorative_image_width }}px; transform: translate({{ section.settings.decorative_image_offset_x }}px, {{ section.settings.decorative_image_offset_y }}px); bottom: {{ section.settings.decorative_image_offset_y | times: -1 }}px; left: {{ section.settings.decorative_image_offset_x }}px;">
+             {% comment %} The style above for bottom/left is a simple interpretation. A more robust solution might be needed depending on how alignments are expected to work with offsets. For now, using transform and letting alignment classes handle gross positioning. For precise bottom-left cornering with offset, more specific CSS might be needed in the style tag or by adjusting Tailwind classes. The current approach uses transform from the aligned position. Let's simplify: offsets are from the default position dictated by flex alignment. 
+             If `jc-items-end` and `jc-justify-start` are used, the decorative image will be at bottom-left of the main image container. Then offset applies. This seems okay.
+             A common pattern for offsets from corners: 
+             left: {{ section.settings.decorative_image_offset_x }}px; 
+             bottom: {{ section.settings.decorative_image_offset_y }}px;
+             transform: none;
+             This requires the parent to be the positioning context for these absolute values.  
+             The image shows it at bottom-left, slightly overlapping. So `bottom` and `left` with offsets are better. 
+             Let's set style to use bottom and left directly. 
+             The parent div uses flex alignment: {{ section.settings.decorative_image_align_vertical }} {{ section.settings.decorative_image_align_horizontal }}. 
+             The decorative image is a child of this flex container, and it's absolutely positioned relative to it. 
+             So if parent is `jc-items-end jc-justify-start`, the child `jc-absolute jc-bottom-0 jc-left-0` would be at the bottom left. Then transform offsets it. This is logical.
+             {% endcomment %}
+            {% render 'g-render-image',
+              img: section.settings.decorative_image,
+              alt: section.settings.decorative_image.alt | default: 'Decorative image',
+              class: 'jc-max-w-full jc-h-auto',
+              size: '150 200 300',
+              style: 'width: ' | append: section.settings.decorative_image_width | append: 'px; transform: translate(' | append: section.settings.decorative_image_offset_x | append: 'px, ' | append: section.settings.decorative_image_offset_y | append: 'px);'
+            %}
+          </div>  
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero Split Image Text",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_t",
+      "min": 0, "max": 120, "step": 4, "default": 60,
+      "unit": "px",
+      "label": "Section Top Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_dsk_b",
+      "min": 0, "max": 120, "step": 4, "default": 60,
+      "unit": "px",
+      "label": "Section Bottom Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_t",
+      "min": 0, "max": 80, "step": 4, "default": 40,
+      "unit": "px",
+      "label": "Section Top Padding (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "padding_mob_b",
+      "min": 0, "max": 80, "step": 4, "default": 40,
+      "unit": "px",
+      "label": "Section Bottom Padding (Mobile)"
+    },
+    {
+      "type": "color",
+      "id": "background_color_section",
+      "label": "Section Background Color",
+      "default": "#D1E7DD"
+    },
+    {
+      "type": "header",
+      "content": "Left Column: Text Content"
+    },
+    {
+      "type": "range",
+      "id": "content_padding_dsk",
+      "min": 0, "max": 80, "step": 4, "default": 24,
+      "unit": "px",
+      "label": "Text Column Padding (Desktop)"
+    },
+    {
+      "type": "range",
+      "id": "content_padding_mob",
+      "min": 0, "max": 40, "step": 4, "default": 16,
+      "unit": "px",
+      "label": "Text Column Padding (Mobile)"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_horizontal_alignment_dsk",
+      "label": "Text Horizontal Align (Desktop)",
+      "default": "left"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_horizontal_alignment_mob",
+      "label": "Text Horizontal Align (Mobile)",
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show Rating Stars & Text",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rating_value",
+      "label": "Rating Stars (0-5)",
+      "min": 0, "max": 5, "step": 0.5, "default": 5
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating Text",
+      "default": "+ 10 000 vegans heureux"
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Rating Text Color",
+      "default": "#4B5563" /* gray-600 for visibility on light green */
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "LE PLAISIR VÉGÉTAL, ÇA COMMENCE ICI !"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1F2937" /* gray-800 for visibility on light green */
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>100% Produits végétaliens, sans matières animales</p>"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#374151" /* gray-700 for visibility */
+    },
+    {
+      "type": "header",
+      "content": "Button 1 Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Button 1 Text",
+      "default": "Découvrir les produits"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Button 1 Link"
+    },
+    {
+      "type": "select",
+      "id": "button_1_style",
+      "label": "Button 1 Style",
+      "options": [
+        {"value": "peach", "label": "Peach"},
+        {"value": "grey", "label": "Grey"},
+        {"value": "black-button", "label": "Black"},
+        {"value": "white-button", "label": "White"}
+      ],
+      "default": "peach"
+    },
+    {
+      "type": "header",
+      "content": "Button 2 Settings"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Button 2 Text",
+      "default": "Créez votre pack"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Button 2 Link"
+    },
+    {
+      "type": "select",
+      "id": "button_2_style",
+      "label": "Button 2 Style",
+      "options": [
+        {"value": "peach", "label": "Peach"},
+        {"value": "grey", "label": "Grey"},
+        {"value": "black-button", "label": "Black"},
+        {"value": "white-button", "label": "White"}
+      ],
+      "default": "grey"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_2_show_badge",
+      "label": "Show Badge on Button 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_2_badge_text",
+      "label": "Button 2 Badge Text",
+      "default": "jusqu'à -20%"
+    },
+    {
+      "type": "color",
+      "id": "button_2_badge_bg_color",
+      "label": "Button 2 Badge Background",
+      "default": "#EF4444"
+    },
+    {
+      "type": "color",
+      "id": "button_2_badge_text_color",
+      "label": "Button 2 Badge Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Circular Badges"
+    },
+    {
+      "type": "text", "id": "badge_1_text", "label": "Badge 1 Text", "default": "100% VÉGÉTAL"
+    },
+    {
+      "type": "color", "id": "badge_1_bg_color", "label": "Badge 1 Background", "default": "#D1FAE5" 
+    },
+    {
+      "type": "color", "id": "badge_1_text_color", "label": "Badge 1 Text Color", "default": "#065F46"
+    },
+    {
+      "type": "text", "id": "badge_2_text", "label": "Badge 2 Text", "default": "100% GOURMAND"
+    },
+    {
+      "type": "color", "id": "badge_2_bg_color", "label": "Badge 2 Background", "default": "#FEE2E2"
+    },
+    {
+      "type": "color", "id": "badge_2_text_color", "label": "Badge 2 Text Color", "default": "#991B1B"
+    },
+    {
+      "type": "text", "id": "badge_3_text", "label": "Badge 3 Text", "default": "100% FUN"
+    },
+    {
+      "type": "color", "id": "badge_3_bg_color", "label": "Badge 3 Background", "default": "#FBCFE8"
+    },
+    {
+      "type": "color", "id": "badge_3_text_color", "label": "Badge 3 Text Color", "default": "#9D174D"
+    },
+    {
+      "type": "header",
+      "content": "Right Column: Image Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Main Product Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "decorative_image",
+      "label": "Decorative Image (e.g., Limes)"
+    },
+    {
+      "type": "select",
+      "id": "decorative_image_align_vertical",
+      "label": "Decorative Image Vertical Alignment (within image area)",
+      "options": [
+          {"value": "jc-items-start", "label": "Top"},
+          {"value": "jc-items-center", "label": "Center"},
+          {"value": "jc-items-end", "label": "Bottom"}
+      ],
+      "default": "jc-items-end"
+    },
+    {
+      "type": "select",
+      "id": "decorative_image_align_horizontal",
+      "label": "Decorative Image Horizontal Alignment (within image area)",
+      "options": [
+          {"value": "jc-justify-start", "label": "Left"},
+          {"value": "jc-justify-center", "label": "Center"},
+          {"value": "jc-justify-end", "label": "Right"}
+      ],
+      "default": "jc-justify-start"
+    },
+    {
+      "type": "range",
+      "id": "decorative_image_width",
+      "label": "Decorative Image Width",
+      "min": 50, "max": 300, "step": 5, "default": 120, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "decorative_image_offset_x",
+      "label": "Decorative Image Offset X",
+      "min": -100, "max": 100, "step": 1, "default": 10, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "decorative_image_offset_y",
+      "label": "Decorative Image Offset Y",
+      "min": -100, "max": 100, "step": 1, "default": -15, "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Split Image Text"
+    }
+  ]
+}
+{% endschema %}
